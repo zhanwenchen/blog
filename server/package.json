@@ -1,0 +1,17 @@
+{
+  "name": "blog-server",
+  "version": "0.0.0",
+  "description": "blog back-end",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Zhanwen Chen",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "pg": "^7.3.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.8.3"
+  }
+}
