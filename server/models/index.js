@@ -4,6 +4,11 @@
   This is done by passing the single Sequelize object to each
   model as a reference, which each model then piggy-backs (sequelize.define())
   for creating a single db class model.
+
+  This file is not supposed to be executed as a main class. Rather it is
+  supposed to be imported (or 'required'). The actual creation of the db tables
+  will be the job of the main startup code - [project_root]/bin/www by calling
+  `models.sequelize.sync()` after importing from this index.js file
 */
 
 "use strict"; // typical JS thing to enforce strict syntax
@@ -35,5 +40,7 @@ const models = Object.assign({}, ...fs.readdirSync(__dirname)
 for (const model of Object.keys(models)) {
   typeof models[model].associate === 'function' && models[model].associate(models);
 }
+
+models.sequelize = sequelize; // delegate initialization to bootstrapping
 
 module.exports = models;
