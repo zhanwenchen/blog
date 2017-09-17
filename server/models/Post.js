@@ -4,6 +4,10 @@
 
   @param sequelize
   @param Sequelize
+
+  TODO:
+  1. create hooks (beforeCreate?) to compute derivative fields such as
+    string_id
 */
 
 'use strict';
@@ -15,6 +19,11 @@ module.exports =
   class Post extends Sequelize.Model {
     static init(sequelize) {
       return super.init({
+        string_id: {
+          type: Sequelize.STRING,
+          allowNull: false,
+          unique: true,
+        },
         title: {
           type: Sequelize.STRING,
           allowNull: false,

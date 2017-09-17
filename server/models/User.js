@@ -4,11 +4,14 @@
 
   @param sequelize
   @param Sequelize
+
+  TODO: this.password a good idea?
 */
 
 'use strict';
 
 const Sequelize = require('sequelize');
+const bcrypt = require('bcrypt');
 
 module.exports =
   class User extends Sequelize.Model {
@@ -25,8 +28,9 @@ module.exports =
         username: {
           type: Sequelize.STRING,
           allowNull: false,
+          unique: true
         },
-        password_hash: {
+        passwordhash: {
           type: Sequelize.STRING,
           allowNull: false,
         },
@@ -37,12 +41,14 @@ module.exports =
         email: {
           type: Sequelize.STRING,
           allowNull: false,
+          unique: true,
           validate: {
             isEmail: true
           }
         },
         isActive: {
           type: Sequelize.BOOLEAN
+          defaultValue: false,
         }
       }, { sequelize })
     };
@@ -65,7 +71,24 @@ module.exports =
           allowNull: false
         }
       });
-    }
+    };
 
+    /**
+    * @param {string} passport
+    * @return {passwordhash}
+    */
+    getPasswordHash(password) {
+      return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+      // return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
+    };
+
+    /**
+    * @param {string} password
+    * @return {boolean}
+    */
+    isPasswordValid(passwordInput) {
+      return bcrypt.compareSync(passwordInput, this.passwordhash);
+      // return bCrypt.compareSync(password, userpass);
+    };
 
   }

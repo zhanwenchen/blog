@@ -15,9 +15,9 @@
 
 const fs = require("fs"); // file system for grabbing files
 const path = require("path"); // better than '\/..\/' for portability
-const Sequelize = require("sequelize"); // Sequelize is a constructor
 const env = process.env.NODE_ENV || "development"; // use process environment
 const config = require(path.join(__dirname, '..', 'config.js'))[env] // Use the .config.json file in the parent folder
+const Sequelize = require("sequelize"); // Sequelize is a constructor
 const sequelize = new Sequelize(config.database, config.username, config.password, {
   dialect: config.dialect,
 });
@@ -27,12 +27,10 @@ const models = Object.assign({}, ...fs.readdirSync(__dirname)
   .filter(file =>
     (file.indexOf(".") !== 0) && (file !== "index.js")
   )
-  .map(function (file) {
+  .map(file => {
     const model = require(path.join(__dirname, file));
     // console.log(model.init(sequelize).tableName)
-    return {
-      [model.name]: model.init(sequelize),
-    };
+    return { [model.name]: model.init(sequelize), }; // {[computed.key]: value}
   })
 );
 
