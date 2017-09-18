@@ -5,10 +5,8 @@
   @param sequelize
   @param Sequelize
 
-  TODO: this.password a good idea?
+  REVIEW: this.password a good idea?
 */
-
-'use strict';
 
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
@@ -28,7 +26,7 @@ module.exports =
         username: {
           type: Sequelize.STRING,
           allowNull: false,
-          unique: true
+          unique: true,
         },
         passwordhash: {
           type: Sequelize.STRING,
@@ -43,52 +41,51 @@ module.exports =
           allowNull: false,
           unique: true,
           validate: {
-            isEmail: true
-          }
+            isEmail: true,
+          },
         },
         isActive: {
-          type: Sequelize.BOOLEAN
+          type: Sequelize.BOOLEAN,
           defaultValue: false,
-        }
-      }, { sequelize })
-    };
+        },
+      }, { sequelize });
+    }
 
     static associate(models) {
       // Using additional options like CASCADE etc for demonstration
       // Can also simply do Task.belongsTo(models.User);
       this.hasMany(models.Post, {
-        onDelete: "CASCADE",
+        onDelete: 'CASCADE',
         foreignKey: {
-          allowNull: false
-        }
+          allowNull: false,
+        },
       });
 
       // Using additional options like CASCADE etc for demonstration
       // Can also simply do Task.belongsTo(models.User);
       this.hasMany(models.Comment, {
-        onDelete: "CASCADE",
+        onDelete: 'CASCADE',
         foreignKey: {
-          allowNull: false
-        }
+          allowNull: false,
+        },
       });
-    };
+    }
 
     /**
     * @param {string} passport
     * @return {passwordhash}
     */
-    getPasswordHash(password) {
+    static getPasswordHash(password) {
       return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
       // return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
-    };
+    }
 
     /**
     * @param {string} password
     * @return {boolean}
     */
-    isPasswordValid(passwordInput) {
+    static isPasswordValid(passwordInput) {
       return bcrypt.compareSync(passwordInput, this.passwordhash);
       // return bCrypt.compareSync(password, userpass);
-    };
-
-  }
+    }
+  };

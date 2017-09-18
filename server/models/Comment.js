@@ -6,8 +6,6 @@
   @param Sequelize
 */
 
-'use strict';
-
 const Sequelize = require('sequelize');
 
 module.exports =
@@ -21,27 +19,27 @@ module.exports =
         body: {
           type: Sequelize.TEXT,
           allowNull: false,
-        }
-      }, { sequelize })
-    };
+        },
+      }, { sequelize });
+    }
 
     static associate(models) {
       // Using additional options like CASCADE etc for demonstration
       // Can also simply do Task.belongsTo(models.Comment);
       this.belongsTo(models.User, {
-        onDelete: "CASCADE",
+        onDelete: 'CASCADE',
         foreignKey: {
-          allowNull: false
-        }
+          allowNull: false,
+        },
       });
 
       // Using additional options like CASCADE etc for demonstration
       // Can also simply do Task.belongsTo(models.Comment);
       this.belongsTo(models.Post, {
-        onDelete: "CASCADE",
+        onDelete: 'CASCADE',
         foreignKey: {
-          allowNull: false
-        }
+          allowNull: false,
+        },
       });
     }
-  }
+  };

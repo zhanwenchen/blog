@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-'use strict';
-
 // Import module dependencies
 const express = require('express');
 const path = require('path');
@@ -14,30 +12,29 @@ const passport = require('passport');
 const env = process.env.NODE_ENV || 'development';
 const config = require('./config')[env];
 const routes = require('./routes/index');
-// const users  = require('./routes/users');
+const configurePassport = require('./configurePassport');
 
 const app = express();
 
 // configure express-session (cookie)
 // secret is used to compute hash for the session. Hide it.
 // resave, saveUnitialized = false - avoid race conditions for parallel requests
-// TODO: session store?
+// IDEA: session store?
 app.use(session({
   secret: config.secret,
   resave: false,
-  saveUnitialized: false
-}))
+  saveUninitialized: false,
+}));
 
 // passport.js
 app.use(passport.initialize());
-app.use(passport.session())
+app.use(passport.session());
 
+configurePassport();
 
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
@@ -45,18 +42,18 @@ app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  var err = new Error('Not Found');
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
 // no stacktraces leaked to user unless in development environment
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
-    error: (app.get('env') === 'development') ? err : {}
+    error: (app.get('env') === 'development') ? err : {},
   });
 });
 
