@@ -81,11 +81,13 @@ const normalizePort = (portInput) => {
 const onError = (error) => {
   if (error.syscall !== 'listen') throw error;
 
+  const porty = app.address;
+
   // TODO: fix onError
   const bind =
-    typeof port === 'string'
-      ? `Pipe ${port}`
-      : `Port + ${port}`;
+    typeof porty === 'string'
+      ? `Pipe ${porty}`
+      : `Port + ${porty}`;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
