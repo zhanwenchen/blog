@@ -17,7 +17,9 @@ const Sequelize = require('sequelize'); // Sequelize is a constructor
 
 
 const env = process.env.NODE_ENV || 'development'; // use process environment
-const config = require(path.join(__dirname, '..', 'config.js'))[env] // Use the .config.json file in the parent folder
+const config = require('../config')[env]; // Use the .config.json file
+
+
 const sequelize = new Sequelize(config.database, config.username, config.password, {
   dialect: config.dialect,
 });

@@ -1,6 +1,3 @@
 {
-  "extends": "eslint-config-airbnb",
-  "env": {
-    "mocha": true
-  }
+  "extends": "eslint-config-airbnb"
 }
