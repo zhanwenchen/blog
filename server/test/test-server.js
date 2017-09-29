@@ -1,6 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../bin/www');
+const app = require('../app');
 
 chai.should();
 
@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 
 describe('Posts', () => {
   it('should list ALL posts on /posts GET', (done) => {
-    chai.request(server)
+    chai.request(app)
       .get('/posts')
       .end((err, res) => {
         res.should.have.status(200);
@@ -21,7 +21,7 @@ describe('Posts', () => {
 
   // TODO login
   it('should list a SINGLE post on /post/<id> GET', () => {
-    chai.request(server)
+    chai.request(app)
       .post('/posts')
       .send({});
   });

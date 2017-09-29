@@ -4,7 +4,7 @@
   "description": "blog back-end",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "DEBUG=blog node app.js",
     "test": "mocha"
   },
   "author": "Zhanwen Chen",

@@ -5,7 +5,7 @@
   @param sequelize
   @param Sequelize
 
-  REVIEW: this.password a good idea?
+  CHANGED: removed salt because bcrypt already incorporates salt in the hash
 */
 
 const Sequelize = require('sequelize');
@@ -23,26 +23,19 @@ module.exports =
           type: Sequelize.STRING,
           allowNull: false,
         },
+        // also email
         username: {
-          type: Sequelize.STRING,
-          allowNull: false,
-          unique: true,
-        },
-        passwordhash: {
-          type: Sequelize.STRING,
-          allowNull: false,
-        },
-        salt: {
-          type: Sequelize.STRING,
-          allowNull: false,
-        },
-        email: {
           type: Sequelize.STRING,
           allowNull: false,
           unique: true,
           validate: {
             isEmail: true,
           },
+        },
+        // hashed password
+        password: {
+          type: Sequelize.STRING,
+          allowNull: false,
         },
         isActive: {
           type: Sequelize.BOOLEAN,

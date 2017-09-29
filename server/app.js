@@ -2,6 +2,7 @@
 
 // CHANGED: merged ~/bin/www code with app
 // CHANGED: use const for port utils to avoid function declaration hoisting
+// IDEA: blog mention adding DEBUG=blog to package.json npm start script
 
 // Import module dependencies
 const express = require('express');
@@ -14,6 +15,7 @@ const session = require('express-session');
 const passport = require('passport');
 
 const env = process.env.NODE_ENV || 'development';
+debug(`env is ${env}`);
 const config = require('./config')[env];
 const routes = require('./routes/index');
 const models = require('./models');
@@ -62,8 +64,6 @@ app.use((err, req, res) => {
   });
 });
 
-
-module.exports = app;
 
 // Normalize a port into a number, string, or false
 const normalizePort = (portInput) => {
@@ -116,16 +116,18 @@ const onListening = () => {
 };
 
 // Get port from environment ad store it in Express
-const port = normalizePort(process.env.PORT || config.port);
+const port = normalizePort(config.port);
 app.set('port', port);
 
 // Create db tables in the database using data models
 models.sequelize.sync()
   .then(() => {
     app.listen(port, () => {
-      debug('Express server listening on port', app.address().port);
+      debug('Express server listening on port', port);
     });
     app.on('error', onError);
     app.on('listening', onListening);
   })
   .catch((err) => { throw err; });
+
+module.exports = app;

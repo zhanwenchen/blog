@@ -8,14 +8,18 @@
 // IDEA: if user already exists, flash 'username ... already exists' message. See https://stackoverflow.com/questions/19797918/send-error-message-on-redirect
 
 const passport = require('passport');
+const debug = require('debug');
 /**
 * route handler for POST '/users'
 * most of logic inside ~/configurePassport.js:
 */
 
 module.exports = (req, res, next) => {
+  debug('postSignupHandler is being required');
+  console.log('postSignupHandler is being required');
   passport.authenticate('local-signup', {
-    successRedirect: '/',
-    failureRedirect: '/signup',
+    // TODO: change successRedirect
+    successRedirect: '/posts',
+    failureRedirect: '/lols',
   })(req, res, next);
 };

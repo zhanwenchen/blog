@@ -15,21 +15,66 @@
 //     if (!user) { return self.fail(info); }
 //     self.success(user, info);
 //   }
+
+// TODO: deprecate configurePassport.js and move functionalities into route handlers
+// IDEA for blog: use async bcrypt algo instead of sync. Tutorials are wrong because they use mongodb. Better not tie up your node.js io. Source: https://stackoverflow.com/questions/11605943/async-or-sync-bcrypt-function-to-use-in-node-js-in-order-to-generate-hashes. More on bcrypt sync vs async: https://www.npmjs.com/package/bcrypt
+// IDEA for blog: point - don't store the salt in the db. Here's why: https://stackoverflow.com/questions/277044/do-i-need-to-store-the-salt-with-bcrypt. More on bcrypt salt here: https://stackoverflow.com/questions/6832445/how-can-bcrypt-have-built-in-salts
+
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const LocalStrategy = require('passport-local').Strategy;
 const models = require('./models');
+const debug = require('debug');
 
+const saltRounds = 10;
 // IDEA: move these functions inside User model?
-const generateHash = password =>
-  bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 
-const isValidPassword = (userpass, password) =>
-  bcrypt.compareSync(password, userpass);
+const createUser = (userData, done) => {
+  models.User.create(userData)
+    .then((newUser) => {
+      // REVIEW: what are the params for the callback?
+      // REVIEW: return done?
+      if (newUser) {
+        return done(null, newUser);
+      }
+      return done(null, false);
+    })
+    .catch(error => done(error, false, { message: 'error in local-signup' }));
+};
 
-/**
-* @param passport
-*/
+const findOrCreateUser = (req, username, password, done) => {
+  models.User.findOne({ where: { username } })
+    .then((user) => {
+      if (user) {
+        return done(null, false, {
+          message: `username ${username} is already taken`,
+        });
+      }
+
+      bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+        // Store hash in your password DB.
+        const userData = {
+          username,
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          password: hash,
+        };
+
+        createUser(userData, done);
+      });
+
+      return done(null, true, { message: 'error in local-signup' });
+    })
+    .catch(error => done(error, false, { message: 'error in local-signup' }));
+};
+
+const signupStrategy = new LocalStrategy({ passReqToCallback: true }, findOrCreateUser);
+
+const isPasswordValid = (passwordCandidate, hash, cb) => {
+  bcrypt.compare(passwordCandidate, hash, (err, res) => {
+    cb();
+  })
+}
 
 // IDEA: idea for blog: user does not need to be passed around either
 // CHANGED: removed passport, user from Lynda Chiwetelu's example because those
@@ -46,7 +91,12 @@ module.exports = () => {
   // result: req.session.passport.user = {id:'..'}
 
   // REVIEW: what is the first argument? a generic user or the user model????
+  // Only put user.id into session because otherwise leak user info and impact
+  // performance. Although if some user information is repetitively needed,
+  // having frequently requested info in session could improve performance.
   passport.serializeUser((user, done) => {
+    // FIXME: passport error: user cannot be serialized
+    debug('in serializeUser');
     done(null, user.id);
   });
 
@@ -65,71 +115,28 @@ module.exports = () => {
       .catch((err) => { if (err) done(null, false); });
   });
 
-  // req.email = usernameField, req.passwordhash = passwordField
-  passport.use(
-    'local-signup',
-    new LocalStrategy(
-      {
-        // these are fields in req.param
-        usernameField: 'email',
-        passwordField: 'passwordSupplied',
-        // allows us to pass back the entire request to the following callback
-        passReqToCallback: true,
-      },
-      (req, email, passwordSupplied, done) => {
-        models.User.findOne({ where: { email } })
-          .then((user) => {
-            if (user) {
-              return done(null, false, {
-                message: `Email ${email} is already taken`,
-              });
-            }
-
-            models.User.create(
-              {
-                email,
-                password: generateHash(passwordSupplied),
-                firstname: req.body.firstname,
-                lastname: req.body.lastname,
-              })
-              .then((newUser) => {
-                // REVIEW: what are the params for the callback?
-                // REVIEW: return done?
-                if (newUser) {
-                  return done(null, newUser);
-                }
-                return done(null, false);
-              })
-              .catch(error => done(error, false, { message: 'error in local-signup' }));
-
-            return done(new Error('error'), false, { message: 'error in local-signup' });
-          })
-          .catch(error => done(error, false, { message: 'error in local-signup' }));
-      }
-    )
-  );
-
+  passport.use('local-signup', signupStrategy);
 
   passport.use(
-    'local-signin',
+    'local-login',
     new LocalStrategy(
       {
         // by default, local strategy uses username and password, we will override with email
-        usernameField: 'email',
-        passwordField: 'password',
+        // usernameField: 'email',
+        // passwordField: 'password',
         // allows us to pass back the entire request to the callback
         passReqToCallback: true,
       },
-      (req, email, password, done) => {
-        models.User.findOne({ where: { email } })
+      (req, username, password, done) => {
+        models.User.findOne({ where: { username } })
           .then((possibleUser) => {
             if (!possibleUser) {
               return done(null, false, { message: 'Email does not exist' });
             }
 
-            if (!isValidPassword(possibleUser.password, password)) {
-              return done(null, false, { message: 'Incorrect password.' });
-            }
+            bcrypt.compare(password, possibleUser.password, (err, res) => {
+              return done(null, res, { message: res ? 'Correct Password' : 'Incorrect Password' });
+            });
 
             return done(null, possibleUser.get());
           })
