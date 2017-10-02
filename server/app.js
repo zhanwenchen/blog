@@ -14,6 +14,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
 
+debug.log = console.info.bind(console);
+
 const env = process.env.NODE_ENV || 'development';
 debug(`env is ${env}`);
 const config = require('./config')[env];
@@ -129,5 +131,7 @@ models.sequelize.sync()
     app.on('listening', onListening);
   })
   .catch((err) => { throw err; });
+
+app.models = models;
 
 module.exports = app;

@@ -16,10 +16,11 @@ const debug = require('debug');
 
 module.exports = (req, res, next) => {
   debug('postSignupHandler is being required');
-  console.log('postSignupHandler is being required');
-  passport.authenticate('local-signup', {
-    // TODO: change successRedirect
-    successRedirect: '/posts',
-    failureRedirect: '/lols',
+  passport.authenticate('local-signup', (err, user, info) => {
+    if (err) { return next(err); }
+    if (!user) { return res.redirect('/'); }
+
+    debug('In postSignupHandler. In passport.authenticate callback. User is', user);
+    return res.status(200).json(user);
   })(req, res, next);
 };

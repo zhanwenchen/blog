@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "DEBUG=blog node app.js",
-    "test": "mocha"
+    "test": "DEBUG=blog mocha"
   },
   "author": "Zhanwen Chen",
   "license": "ISC",

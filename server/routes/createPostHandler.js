@@ -19,7 +19,7 @@ module.exports = (req, res) => {
       models.Post.create({
         title: req.param.title,
         body: req.param.body })
-        .then((newPost) => { res.json(newPost); });
+        .then(newPost => res.status(200).json(newPost));
     });
 
 

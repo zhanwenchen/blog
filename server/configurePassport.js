@@ -27,16 +27,17 @@ const models = require('./models');
 const debug = require('debug');
 
 const saltRounds = 10;
-// IDEA: move these functions inside User model?
 
 const createUser = (userData, done) => {
   models.User.create(userData)
     .then((newUser) => {
       // REVIEW: what are the params for the callback?
-      // REVIEW: return done?
+      // REVIEW: return done? or just call done()?
       if (newUser) {
+        debug('In configurePassport.createUser. newUser was created. newUser is ', newUser);
         return done(null, newUser);
       }
+      debug('In configurePassport.createUser. newUser was NOT created.');
       return done(null, false);
     })
     .catch(error => done(error, false, { message: 'error in local-signup' }));
@@ -61,20 +62,33 @@ const findOrCreateUser = (req, username, password, done) => {
         };
 
         createUser(userData, done);
-      });
+        debug('In configurePassport.findOrCreateUser. Just invoked createUser and program did not terminate. ')
+      })
 
-      return done(null, true, { message: 'error in local-signup' });
+      // return done(null, true, { message: 'error in local-signup' });
     })
     .catch(error => done(error, false, { message: 'error in local-signup' }));
 };
 
 const signupStrategy = new LocalStrategy({ passReqToCallback: true }, findOrCreateUser);
 
-const isPasswordValid = (passwordCandidate, hash, cb) => {
-  bcrypt.compare(passwordCandidate, hash, (err, res) => {
-    cb();
-  })
-}
+const findUser = (req, username, password, done) => {
+  models.User.findOne({ where: { username } })
+    .then((possibleUser) => {
+      if (!possibleUser) {
+        return done(null, false, { message: 'Email does not exist' });
+      }
+
+      bcrypt.compare(password, possibleUser.password, (err, res) =>
+        done(null, res, { message: res ? 'Correct Password' : 'Incorrect Password' })
+      );
+
+      return done(null, possibleUser.get());
+    })
+    .catch(err => done(err, false, { message: 'Something went wrong with your signin' }));
+};
+
+const loginStrategy = new LocalStrategy({ passReqToCallback: true }, findUser);
 
 // IDEA: idea for blog: user does not need to be passed around either
 // CHANGED: removed passport, user from Lynda Chiwetelu's example because those
@@ -117,32 +131,5 @@ module.exports = () => {
 
   passport.use('local-signup', signupStrategy);
 
-  passport.use(
-    'local-login',
-    new LocalStrategy(
-      {
-        // by default, local strategy uses username and password, we will override with email
-        // usernameField: 'email',
-        // passwordField: 'password',
-        // allows us to pass back the entire request to the callback
-        passReqToCallback: true,
-      },
-      (req, username, password, done) => {
-        models.User.findOne({ where: { username } })
-          .then((possibleUser) => {
-            if (!possibleUser) {
-              return done(null, false, { message: 'Email does not exist' });
-            }
-
-            bcrypt.compare(password, possibleUser.password, (err, res) => {
-              return done(null, res, { message: res ? 'Correct Password' : 'Incorrect Password' });
-            });
-
-            return done(null, possibleUser.get());
-          })
-          .catch(err =>
-            done(err, false, { message: 'Something went wrong with your signin' }));
-      }
-    )
-  );
+  passport.use('local-login', loginStrategy);
 };
