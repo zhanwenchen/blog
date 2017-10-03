@@ -20,6 +20,8 @@
 // IDEA for blog: use async bcrypt algo instead of sync. Tutorials are wrong because they use mongodb. Better not tie up your node.js io. Source: https://stackoverflow.com/questions/11605943/async-or-sync-bcrypt-function-to-use-in-node-js-in-order-to-generate-hashes. More on bcrypt sync vs async: https://www.npmjs.com/package/bcrypt
 // IDEA for blog: point - don't store the salt in the db. Here's why: https://stackoverflow.com/questions/277044/do-i-need-to-store-the-salt-with-bcrypt. More on bcrypt salt here: https://stackoverflow.com/questions/6832445/how-can-bcrypt-have-built-in-salts
 
+// TODO: Write test cases with login failures
+
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const LocalStrategy = require('passport-local').Strategy;

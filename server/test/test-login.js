@@ -61,6 +61,27 @@ describe('Signup', function() {
       })
   });
 
+  // TODO:
+  // it('should NOT add duplicate user in database on POST /signup', function(done) {
+  //   debug('Testing POST /signup. Invoking chai request')
+  //   chai.request(app)
+  //     .post('/signup')
+  //     .type('form')
+  //     .send(testerAccount)
+  //     .end((err, res) => {
+  //       res.should.have.status(200);
+  //       res.should.be.json;
+  //       app.models.User.findOne({ where: { username: testerAccount.username } })
+  //         .then((user) => {
+  //           user.should.be.a('object');
+  //           user.username.should.equal(testerAccount.username);
+  //           user.firstName.should.equal(testerAccount.firstName);
+  //           user.lastName.should.equal(testerAccount.lastName);
+  //         })
+  //       done();
+  //     })
+  // });
+
   it('should log in with new user in database on /login POST', function(done) {
     chai.request(app)
       .post('/login')
@@ -77,4 +98,22 @@ describe('Signup', function() {
         done();
       });
   });
+
+  // TODO
+  // it('should NOT log in with wrong user password on /login POST', function(done) {
+  //   chai.request(app)
+  //     .post('/login')
+  //     .type('form')
+  //     .send(testerAccount)
+  //     .end((err, res) => {
+  //       // debug(Object.keys(res))
+  //       // debug(res.res.body.username)
+  //       res.should.have.status(200);
+  //       res.should.be.json;
+  //       res.should.be.a('object');
+  //       res.res.body.should.have.property('username');
+  //       res.res.body.username.should.equal(testerAccount.username);
+  //       done();
+  //     });
+  // });
 });
