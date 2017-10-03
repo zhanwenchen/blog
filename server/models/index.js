@@ -22,6 +22,7 @@ const config = require('../config')[env]; // Use the .config.json file
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
   dialect: config.dialect,
+  logging: false,
 });
 
 // Load each model file

@@ -14,8 +14,12 @@ module.exports = (req, res, next) => {
 
     // Manually establish the session...
     req.logIn(user, (error) => {
+      // console.log('In postLoginHandler. user is', user);
       if (error) return next(error);
-      return res.status(200).json({ message: 'user authenticated' });
+      return res.status(200).json({
+        username: user.username,
+        message: 'user authenticated',
+      });
     });
   })(req, res, next);
 };

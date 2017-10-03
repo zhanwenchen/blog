@@ -16,7 +16,7 @@
 //     self.success(user, info);
 //   }
 
-// TODO: deprecate configurePassport.js and move functionalities into route handlers
+// IDEA: deprecate configurePassport.js and move functionalities into route handlers
 // IDEA for blog: use async bcrypt algo instead of sync. Tutorials are wrong because they use mongodb. Better not tie up your node.js io. Source: https://stackoverflow.com/questions/11605943/async-or-sync-bcrypt-function-to-use-in-node-js-in-order-to-generate-hashes. More on bcrypt sync vs async: https://www.npmjs.com/package/bcrypt
 // IDEA for blog: point - don't store the salt in the db. Here's why: https://stackoverflow.com/questions/277044/do-i-need-to-store-the-salt-with-bcrypt. More on bcrypt salt here: https://stackoverflow.com/questions/6832445/how-can-bcrypt-have-built-in-salts
 
@@ -72,23 +72,23 @@ const findOrCreateUser = (req, username, password, done) => {
 
 const signupStrategy = new LocalStrategy({ passReqToCallback: true }, findOrCreateUser);
 
-const findUser = (req, username, password, done) => {
+// const findUser = (req, username, password, done) => {
+const findUser = (username, password, done) => {
   models.User.findOne({ where: { username } })
     .then((possibleUser) => {
       if (!possibleUser) {
         return done(null, false, { message: 'Email does not exist' });
       }
 
-      bcrypt.compare(password, possibleUser.password, (err, res) =>
-        done(null, res, { message: res ? 'Correct Password' : 'Incorrect Password' })
-      );
+      bcrypt.compare(password, possibleUser.password, (err, res) => {
+        return res ? done(null, possibleUser.get()) : done(null, false);
+      });
 
-      return done(null, possibleUser.get());
     })
     .catch(err => done(err, false, { message: 'Something went wrong with your signin' }));
 };
 
-const loginStrategy = new LocalStrategy({ passReqToCallback: true }, findUser);
+const loginStrategy = new LocalStrategy({ passReqToCallback: false }, findUser);
 
 // IDEA: idea for blog: user does not need to be passed around either
 // CHANGED: removed passport, user from Lynda Chiwetelu's example because those
