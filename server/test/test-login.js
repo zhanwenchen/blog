@@ -14,40 +14,27 @@ const chaiHttp = require('chai-http');
 const app = require('../app');
 const debug = require('debug')('blog');
 
+const { postUserFormToPromise, testerAccount } = require('./utils');
+
 // debug.log = console.info.bind(console);
 
 const should = chai.should();
 
 chai.use(chaiHttp);
 
-const testerAccount = {
-  firstName: 'tester',
-  lastName: 'lol',
-  username: 'tester1@test.com',
-  password: 't3st3r1',
-};
-
-const postUserFormToPromise = async (url) => {
-  return (chai.request(app)
-    .post(url)
-    .type('form')
-    .send(testerAccount)
-    .then(res => res)
-    .catch(error => { throw error; }));
-};
-
 describe('Signup', function() {
-  before(function(done) {
+
+  before((done) => {
     app.models.User.destroy({ where: { username: testerAccount.username } })
-      .then(() => {
+      .then((lol) => {
         app.models.User.sync();
       })
       .then(done, done);
   });
 
-  after(function(done) {
+  after((done) => {
     app.models.User.destroy({ where: { username: testerAccount.username } })
-      .then(() => {
+      .then((lol) => {
         app.models.User.sync();
       })
       .then(done, done);
@@ -69,45 +56,6 @@ describe('Signup', function() {
       throw error;
     }
   });
-
-
-  // it('should add new user in database on POST /signup', function(done) {
-  //   debug('Testing POST /signup. Invoking chai request');
-  //   chai.request(app)
-  //     .post('/signup')
-  //     .type('form')
-  //     .send(testerAccount)
-  //     .then((res) => {
-  //       res.should.have.status(200);
-  //       res.should.be.json;
-  //     })
-  //     .catch((error) => { throw error; })
-  //     .then(() => {
-  //       const findUserPromise = app.models.User.findOne({ where: { username: testerAccount.username } });
-  //       findUserPromise.should.be.fulfilled;
-  //       findUserPromise.should.eventually.have.property()
-  //
-  //       });
-  //     })
-  //     .then((user) => {
-  //
-  //     })
-      // .catch(error => { throw error; })
-      // .then
-      // .end((err, res) => {
-      //   res.should.have.status(200);
-      //   res.should.be.json;
-      //   app.models.User.findOne({ where: { username: testerAccount.username } })
-      //     .then(user => {
-      //       user.should.be.a('object');
-      //       user.username.should.equal(testerAccount.username);
-      //       user.firstName.should.equal(testerAccount.firstName);
-      //       user.lastName.should.equal(testerAccount.lastName);
-      //     })
-      //     .then(done, done);
-      // });
-  // });
-
   // TODO:
   // it('should NOT add duplicate user in database on POST /signup', function(done) {
   //   debug('Testing POST /signup. Invoking chai request')
@@ -129,24 +77,20 @@ describe('Signup', function() {
   //     })
   // });
 
-  it('should log in with new user in database on /login POST', function(done) {
-    chai.request(app)
-      .post('/login')
-      .type('form')
-      .send(testerAccount)
-      .then((res) => {
+  it('should log in with new user in database on /login POST', async () => {
+    try {
+      const res = await postUserFormToPromise('/login');
+      res.should.have.status(200);
+      res.should.be.json;
 
-      })
-      // .end((err, res) => {
-      //   // debug(Object.keys(res))
-      //   // debug(res.res.body.username)
-      //   res.should.have.status(200);
-      //   res.should.be.json;
-      //   res.should.be.a('object');
-      //   res.res.body.should.have.property('username');
-      //   res.res.body.username.should.equal(testerAccount.username);
-      // })
-      .then(done, done);
+      const user = res.res.body;
+      user.should.have.property('username', testerAccount.username);
+      user.should.not.have.property('firstName');
+      user.should.not.have.property('lastName');
+    } catch (error) {
+      debug(error);
+      throw error;
+    }
   });
 
   // TODO
