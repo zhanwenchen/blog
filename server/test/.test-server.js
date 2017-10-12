@@ -9,7 +9,7 @@ chai.should();
 
 chai.use(chaiHttp);
 
-const { postUserFormToPromise, testerAccount } = require('./utils');
+const { postUserFormToPromise, defaultTesterAccount } = require('./utils');
 
 describe('Posts', () => {
 
@@ -38,12 +38,12 @@ describe('Posts', () => {
       .get('/posts')
   });
   it('should add a SINGLE post on /posts POST after login', (done) => {
-    postUserFormToPromise('login')
+    postUserFormToPromise('login', defaultTesterAccount)
       .then(() => {
         chai.request(app)
           .post('/posts')
           .send({
-            
+
           })
       })
 

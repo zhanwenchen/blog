@@ -14,9 +14,7 @@ const chaiHttp = require('chai-http');
 const app = require('../app');
 const debug = require('debug')('blog');
 
-const { postUserFormToPromise, testerAccount } = require('./utils');
-
-// debug.log = console.info.bind(console);
+const { postUserFormToPromise, defaultTesterAccount } = require('./utils');
 
 const should = chai.should();
 
@@ -25,7 +23,7 @@ chai.use(chaiHttp);
 describe('Signup', function() {
 
   before((done) => {
-    app.models.User.destroy({ where: { username: testerAccount.username } })
+    app.models.User.destroy({ where: { username: defaultTesterAccount.username } })
       .then((lol) => {
         app.models.User.sync();
       })
@@ -33,7 +31,7 @@ describe('Signup', function() {
   });
 
   after((done) => {
-    app.models.User.destroy({ where: { username: testerAccount.username } })
+    app.models.User.destroy({ where: { username: defaultTesterAccount.username } })
       .then((lol) => {
         app.models.User.sync();
       })
@@ -42,15 +40,15 @@ describe('Signup', function() {
 
   it('should add new user in database on POST /signup', async () => {
     try {
-      const res = await postUserFormToPromise('/signup');
+      const res = await postUserFormToPromise('/signup', defaultTesterAccount);
       res.should.have.status(200);
       res.should.be.json;
 
-      const user = await app.models.User.findOne({ where: { username: testerAccount.username } });
+      const user = await app.models.User.findOne({ where: { username: defaultTesterAccount.username } });
       user.should.be.a('object');
-      user.username.should.equal(testerAccount.username);
-      user.firstName.should.equal(testerAccount.firstName);
-      user.lastName.should.equal(testerAccount.lastName);
+      user.username.should.equal(defaultTesterAccount.username);
+      user.firstName.should.equal(defaultTesterAccount.firstName);
+      user.lastName.should.equal(defaultTesterAccount.lastName);
     } catch (error) {
       debug(error);
       throw error;
@@ -79,12 +77,12 @@ describe('Signup', function() {
 
   it('should log in with new user in database on /login POST', async () => {
     try {
-      const res = await postUserFormToPromise('/login');
+      const res = await postUserFormToPromise('/login', defaultTesterAccount);
       res.should.have.status(200);
       res.should.be.json;
 
       const user = res.res.body;
-      user.should.have.property('username', testerAccount.username);
+      user.should.have.property('username', defaultTesterAccount.username);
       user.should.not.have.property('firstName');
       user.should.not.have.property('lastName');
     } catch (error) {

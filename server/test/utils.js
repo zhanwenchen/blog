@@ -5,19 +5,18 @@ chai.use(chaiHttp);
 
 const app = require('../app');
 
-
-const testerAccount = {
-  firstName: 'tester',
-  lastName: 'lol',
-  username: 'tester1@test.com',
-  password: 't3st3r1',
+const defaultTesterAccount = {
+  firstName: 'default',
+  lastName: 'tester',
+  username: 'default.tester@test.com',
+  password: 't3st3r',
 };
 
-const postUserFormToPromise = url =>
+const postUserFormToPromise = (url, testerAccount) =>
   chai.request(app)
     .post(url)
     .type('form')
     .send(testerAccount)
     .catch((error) => { throw error; });
 
-module.exports = { postUserFormToPromise };
+module.exports = { postUserFormToPromise, defaultTesterAccount };
