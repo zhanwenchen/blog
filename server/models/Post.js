@@ -34,9 +34,9 @@ module.exports =
       }, {
         sequelize,
         hooks: {
-          // REVIEW: beforeValidate instead of beforeCreate?
-          beforeCreate: () => {
-            this.string_id = this.title.split(' ').join('-');
+          // TODO: {blog post} beforeValidate instead of beforeCreate, because beforeValidate runs before beforeCreate.
+          beforeValidate: (post) => {
+            post.string_id = post.title.replace(/\s+/g, '-').toLowerCase();
           },
         },
       });

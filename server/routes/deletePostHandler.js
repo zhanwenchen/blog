@@ -27,11 +27,11 @@ module.exports = (req, res) => {
   //   });
 
   // Option 2: implement validating string_id checking in User.hooks.
-  models.Post.create({
-    UserId: req.user.id,
-    title: req.body.title,
-    body: req.body.body,
-  })
-    .then(newPost => res.json({ newPost }))
-    .catch((err) => { throw err; });
+  // console.log('in deletePostHandler');
+  // console.log('req.params is', req.params);
+  models.Post.destroy({ where: { string_id: req.params.string_id } })
+    .then(deletedPost => res.status(200).json(deletedPost))
+    .catch((err) => {
+      throw err;
+    });
 };

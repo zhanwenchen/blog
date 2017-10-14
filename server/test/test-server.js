@@ -41,17 +41,26 @@ describe('Posts', () => {
   it('should add a SINGLE post on /posts POST after login', async () => {
     try {
       const agent = chai.request.agent(app);
-      const loginResponse = await agent.post('/login').type('form').send(defaultTesterAccount);
-      // debug(loginResponse);
+      const postLoginResponse = await agent.post('/login').type('form').send(defaultTesterAccount);
+      // debug(postLoginResponse);
       const postPostResponse = await agent.post('/posts').type('form').send(testPost0);
-      // debug(postPostResponse);
+      // console.log('postPostResponse is', postPostResponse);
 
-      // const res = await postUserFormTosPromise('login', defaultTesterAccount);
-      // const res = chai.request(app).post('/posts').send(testPost0);
       postPostResponse.should.have.status(200);
-      postPostResponse.body.should.be.json;
-      postPostResponse.body.should.be.a('array');
+      // postPostResponse.should.have.property('body');
+      postPostResponse.body.should.have.property('newPost');
+
+      const newPost = postPostResponse.body.newPost;
+
+      const correctString_id = testPost0.title.replace(/\s+/g, '-').toLowerCase();
+
+      const correctPostObject = Object.assign({}, testPost0, { 'string_id': correctString_id }); // TODO: {style} convert all string_ids to stringIds
+      // postPostResponse.body.should.be.json;
+      // postPostResponse.body.should.be.a('array');
+
+      const deleteRes = await agent.delete('/posts' + '/' + correctString_id);
     } catch (error) {
+      console.error(error.stack);
       throw error;
     }
   });

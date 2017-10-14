@@ -32,7 +32,7 @@ const getAllPostsHandler = require('./getAllPostsHandler');
 const getOnePostHandler = require('./getOnePostHandler');
 const createPostHandler = require('./createPostHandler');
 // const updatePostHandler = require('./updatePostHandler');
-// const deletePostHandler = require('./deletePostHandler');
+const deletePostHandler = require('./deletePostHandler');
 
 const router = express.Router();
 
@@ -49,7 +49,6 @@ router.get('/posts', getAllPostsHandler);
 router.get('/posts/:string_id', getOnePostHandler);
 router.post('/posts', isLoggedIn, createPostHandler);
 // router.put('/posts/:string_id', isLoggedIn, updatePostHandler);
-// router.delete('/posts/:string_id', isLoggedIn, deletePostHandler);
-
+router.delete('/posts/:string_id', isLoggedIn, deletePostHandler);
 
 module.exports = router;
