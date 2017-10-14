@@ -9,7 +9,7 @@ module.exports = (req, res) => {
 
   models.Post.findAll()
     .then(postsArray => {
-      res.json({ postsArray });
+      res.status(200).send(postsArray);
     })
     .catch(err => {
       res.json({

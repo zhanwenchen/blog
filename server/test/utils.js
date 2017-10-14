@@ -12,6 +12,11 @@ const defaultTesterAccount = {
   password: 't3st3r',
 };
 
+const testPost0 = {
+  title: 'This is the beginning',
+  body: 'Haha but a beginning is good because you gotta start somewhere. ',
+};
+
 const postUserFormToPromise = (url, testerAccount) =>
   chai.request(app)
     .post(url)
@@ -19,4 +24,4 @@ const postUserFormToPromise = (url, testerAccount) =>
     .send(testerAccount)
     .catch((error) => { throw error; });
 
-module.exports = { postUserFormToPromise, defaultTesterAccount };
+module.exports = { postUserFormToPromise, defaultTesterAccount, testPost0 };

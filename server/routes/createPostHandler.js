@@ -4,7 +4,6 @@
 
 const models = require('../models');
 
-
 // IDEA, FIXME: validate string_id uniqueness in the method or in User.hooks?
 module.exports = (req, res) => {
   // Option 1: implement validating string_id checking in route handler
@@ -16,17 +15,20 @@ module.exports = (req, res) => {
             implemented in route handler`);
       }
 
+      // console.log(req);
+
       models.Post.create({
-        title: req.param.title,
-        body: req.param.body })
+        title: req.body.title,
+        body: req.body.body,
+      })
         .then(newPost => res.status(200).json(newPost));
     });
 
 
   // Option 2: implement validating string_id checking in User.hooks.
   models.Post.create({
-    title: req.param.title,
-    body: req.param.body })
+    title: req.body.title,
+    body: req.body.body })
     .then((newPost) => { res.json(newPost); })
     .catch((err) => { throw err; });
 };
