@@ -3,8 +3,6 @@
   Class model that
 
   @param sequelize
-  @param Sequelize
-
 */
 
 const Sequelize = require('sequelize');

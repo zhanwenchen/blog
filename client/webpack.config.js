@@ -1,28 +1,42 @@
-const path = require('path');
+var webpack = require('webpack');
+var path = require('path');
+
+// Webpack uses `publicPath` to determine where the app is being served from.
+// In development, we always serve from the root. This makes config easier.
+var publicPath = '/';
 
 module.exports = {
-  context: path.join(__dirname, 'src'),
-  entry: [
-    './index.js',
-  ],
+  // context: __dirname + '/src',
+  entry: './src/index.js',
   output: {
-    path: path.join(__dirname, 'build'),
+    path: __dirname + '/build',
     filename: 'bundle.js',
+    // publicPath = '/build' because index.html requires a ./build/bundle.js
+    publicPath: '/build',
+  },
+  devServer: {
+    // contentBase = '~/public/' so that index.html becomes the default html at GET '/'
+    contentBase: path.join(__dirname, 'public'),
+    inline: true,
+    port: 8080
   },
   module: {
-    rules: [
+    loaders: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
-        use: [
-          'babel-loader',
-        ],
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react']
+        }
       },
-    ],
-  },
-  resolve: {
-    modules: [
-      path.join(__dirname, 'node_modules'),
-    ],
-  },
-};
+      {
+        test: /\.css$/,
+        loaders: [
+          require.resolve('style-loader'),
+          require.resolve('css-loader')
+        ]
+      }
+    ]
+  }
+}

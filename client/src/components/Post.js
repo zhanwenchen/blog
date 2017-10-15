@@ -4,7 +4,7 @@ import './Post.css';
 
 // export default function Post({ number, title, labels, user, summary }, { router }) {
   // const {org, repo} = router.params;
-  return (
+  // return (
     // <div className="post">
     //   <UserWithAvatar user={user}/>
     //   <div className="issue__body">
@@ -16,8 +16,8 @@ import './Post.css';
     //     <IssueLabels labels={labels}/>
     //   </div>
     // </div>
-  );
-}
+//   );
+// }
 
 // Issue.propTypes = {
 //   number: PropTypes.number.isRequired,
