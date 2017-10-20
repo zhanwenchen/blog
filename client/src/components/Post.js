@@ -2,6 +2,37 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import './Post.css';
 
+export default class Post extends React.Component {
+
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+  }
+
+  state = {
+    post: '',
+  };
+
+  componentDidMount() {
+    console.log('component did mount in post');
+    // console.log(this)
+    console.log(`The value of posts before the fetch is ${this.state.posts}`);
+    fetch('/post/' + this.props.params.string_id)
+      .then(res => res.json())
+      .then(post => this.setState({ post }))
+      // .then(() => { console.log(`The value of composer after the fetch is ${this.state.settings}`) })
+  };
+
+  render {
+    return (
+      <div className="post">
+        {this.state.post.body}
+      </div>
+    );
+  }
+}
+
 // export default function Post({ number, title, labels, user, summary }, { router }) {
   // const {org, repo} = router.params;
   // return (

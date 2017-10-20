@@ -1,7 +1,9 @@
 // App.js
 import React from 'react';
-import MainLayout from './components/MainLayout';
 import { Switch, Route } from 'react-router-dom';
+import MainLayout from './components/MainLayout';
+import Home from './views/Home';
+
 
 class App extends React.Component {
   render() {
@@ -9,7 +11,7 @@ class App extends React.Component {
       <div className="container app">
         <MainLayout>
           <Switch>
-            {/* <Route path="/" exact component={Home} /> */}
+            <Route path="/" exact component={Home} />
             {/* <Route path="/about" exact component={About} /> */}
             {/* <Route path="/privacy" exact component={Privacy} /> */}
             {/* <Route path="/composers" exact component={Composers} /> */}
