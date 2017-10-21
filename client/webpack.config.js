@@ -18,7 +18,24 @@ module.exports = {
     // contentBase = '~/public/' so that index.html becomes the default html at GET '/'
     contentBase: path.join(__dirname, 'public'),
     inline: true,
-    port: 8080
+    port: 8080,
+    // TODO: BLOG: NOTE that if you redirect every route, it will include the React index
+    // route, so you won't be served React at all! Instead, proxy every browsers
+    // path that is not '/'. But that could be problematic as well because
+    // you cannot predict what other routes you are gonna have to manually make
+    // into exceptions. Therefore it might be best to group all non-front-end
+    // paths by prefixing all backend request by '/api'.
+    proxy: {
+      /**
+       * @todo '/api': 'http://localhost:3000' will direct '/api/posts' to
+       * 'localhost:3000/api/hosts. To avoid this, use 'pathRewrite'
+       *
+       */
+      '/api': {
+        target: 'http://localhost:3000/',
+        pathRewrite: {'^/api' : ''},
+      }
+    },
   },
   module: {
     loaders: [
