@@ -5,17 +5,17 @@ import Message from './Message';
 import Footer from './Footer';
 import { Route } from 'react-router-dom';
 
-class MainLayout extends Component {
+export default class MainLayout extends Component {
   render() {
     return (
-      <div className="container">
-        <NavbarComponent />
-        <Message />
-        {this.props.children}
-        <Footer />
+      <div className="col-xs-12 container" id="container">
+        <NavbarComponent id="navbar" />
+        <div className="content" id="content">
+          <Message />
+          {this.props.children}
+        </div>
+        <Footer id="footer"/>
       </div>
     )
   }
 }
-
-export default MainLayout;

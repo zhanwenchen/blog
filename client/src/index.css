@@ -1,0 +1,31 @@
+html, body {
+  height: 100%;
+  min-height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+#app {
+  height: 100%;
+}
+
+#container {
+  height: 100%;
+}
+
+#navbar {
+  min-height: 10%;
+  max-height: 10%;
+}
+
+#content {
+  min-height: 80%;
+  max-height: 80%;
+}
+
+#footer {
+  min-height: 10%;
+  max-height: 10%;
+}

@@ -27,12 +27,11 @@ module.exports = {
     // paths by prefixing all backend request by '/api'.
     proxy: {
       /**
-       * @todo '/api': 'http://localhost:3000' will direct '/api/posts' to
+       * @todo blog '/api': 'http://localhost:3000' will direct '/api/posts' to
        * 'localhost:3000/api/hosts. To avoid this, use 'pathRewrite'
-       *
        */
       '/api': {
-        target: 'http://localhost:3000/',
+        target: 'http://localhost:3000',
         pathRewrite: {'^/api' : ''},
       }
     },

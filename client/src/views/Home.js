@@ -6,7 +6,7 @@ import Posts from '../components/Posts';
 export default class Home extends React.Component {
 	render() {
 		return (
-			<div className="home">
+			<div className="home" id='home'>
 				<ErrorBoundary>
 					<Posts/>
 				</ErrorBoundary>

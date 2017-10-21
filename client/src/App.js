@@ -3,12 +3,12 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import MainLayout from './components/MainLayout';
 import Home from './views/Home';
+import './App.css';
 
-
-class App extends React.Component {
+export default class App extends React.Component {
   render() {
     return (
-      <div className="container app">
+      <div className="container app" id='app'>
         <MainLayout>
           <Switch>
             <Route path="/" exact component={Home} />
@@ -22,5 +22,3 @@ class App extends React.Component {
     );
   }
 }
-
-export default App;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => (
-  <div className="col-xs-12 footer">
+  <div className="col-xs-12 footer" id='footer'>
     <div className="col-xs-4">
       <Link to="/about" className="about">About</Link>
     </div>
