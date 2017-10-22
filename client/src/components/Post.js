@@ -15,13 +15,13 @@ export default class Post extends React.Component {
   };
 
   componentDidMount() {
-    console.log('component did mount in post');
-    // console.log(this)
-    console.log(`The value of posts before the fetch is ${this.state.posts}`);
-    fetch('/api/post/' + this.props.params.string_id)
-      .then(res => res.json())
-      .then(post => this.setState({ post }))
-      .then(() => { console.log(`The value of composer after the fetch is ${this.state.settings}`) })
+    // console.log('component did mount in post');
+    // // console.log(this)
+    // console.log(`The value of posts before the fetch is ${this.state.posts}`);
+    // fetch('/api/post/' + this.props.params.string_id)
+    //   .then(res => res.json())
+    //   .then(post => this.setState({ post }))
+    //   .then(() => { console.log(`The value of composer after the fetch is ${this.state.settings}`) })
   };
 
   render {

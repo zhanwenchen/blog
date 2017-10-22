@@ -35,8 +35,11 @@ export default class NavbarComponent extends React.Component {
             </NavDropdown> */}
             </Nav>
             <Nav pullRight>
-              <NavItem href="#">Signup</NavItem>
-              <NavItem href="#">Login</NavItem>
+              {/** NOTE that NavItem has a bug that does nothing when clicked. Being fixed in https://github.com/react-bootstrap/react-bootstrap/pull/2790*/}
+              <li role="presentation"><a href='/signup'>Signup</a></li>
+              <li role="presentation"><a href='/login'>Login</a></li>
+              {/* <NavItem href="/signup">Signup</NavItem> */}
+              {/* <NavItem href="/login">Login</NavItem> */}
             </Nav>
         </Navbar.Collapse>
         </Navbar>

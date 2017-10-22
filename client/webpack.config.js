@@ -1,3 +1,5 @@
+process.env.DEBUG = 'express:*';
+process.env.BABEL_DISABLE_CACHE = 1;
 var webpack = require('webpack');
 var path = require('path');
 
@@ -19,6 +21,7 @@ module.exports = {
     contentBase: path.join(__dirname, 'public'),
     inline: true,
     port: 8080,
+    historyApiFallback: true,
     // TODO: BLOG: NOTE that if you redirect every route, it will include the React index
     // route, so you won't be served React at all! Instead, proxy every browsers
     // path that is not '/'. But that could be problematic as well because
@@ -29,9 +32,12 @@ module.exports = {
       /**
        * @todo blog '/api': 'http://localhost:3000' will direct '/api/posts' to
        * 'localhost:3000/api/hosts. To avoid this, use 'pathRewrite'
+       * @todo you must add a "/" at the end of the proxy target. Otherwise
+       * webpack somehow proxies everything. But where did /posts come from
+       * after I deleted everything still?
        */
-      '/api': {
-        target: 'http://localhost:3000',
+      '/api/**': {
+        target: 'http://[::1]:3000/',
         pathRewrite: {'^/api' : ''},
       }
     },

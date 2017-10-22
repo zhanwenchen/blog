@@ -3,6 +3,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import MainLayout from './components/MainLayout';
 import Home from './views/Home';
+import Login from './views/Login';
 import './App.css';
 
 export default class App extends React.Component {
@@ -12,6 +13,11 @@ export default class App extends React.Component {
         <MainLayout>
           <Switch>
             <Route path="/" exact component={Home} />
+            <Route exact path="/login" component={Login} />
+            {/* <Route path="/login" exact component={Login} />
+            <Route path="/" component={Login} /> */}
+            {/* <Route path="/signin" exact component={Login} /> */}
+            {/* <Route path="/signon" exact component={Login} /> */}
             {/* <Route path="/about" exact component={About} /> */}
             {/* <Route path="/privacy" exact component={Privacy} /> */}
             {/* <Route path="/composers" exact component={Composers} /> */}
