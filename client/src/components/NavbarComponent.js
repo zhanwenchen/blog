@@ -8,34 +8,21 @@ export default class NavbarComponent extends React.Component {
   //   event.preventDefault();
   // }
 
-  // render () {
-  //   return (
-  //     <Menu>
-  //       <a id="home" className="menu-item" href="/">Home</a>
-  //       <a id="composers" className="menu-item" href="/composers">Composers</a>
-  //       <a id="about" className="menu-item" href="/about">Contribute</a>
-  //       <a id="donate" className="menu-item" href="/donate">Donate</a>
-  //       <a id="contact" className="menu-item" href="/contact">Contact</a>
-  //       {/* <a onClick={ this.showSettings } className="menu-item--small" href="">Settings</a> */}
-  //     </Menu>
-  //   );
-  // }
-
   render() {
     return (
       <div id='navbar'>
         <Navbar inverse collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="/">ReactBlog</a>
+              <a href="/">Blog</a>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav>
-              <li role="presentation"><a href="/posts">All Posts</a></li>
-              <li role="presentation"><a href="/login">Login</a></li>
-              <li role="presentation"><a href="/signup">Signup</a></li>
+              {/* <li role="presentation"><a href="/posts">All Posts</a></li> */}
+              {/* <li role="presentation"><a href="/login">Login</a></li> */}
+              {/* <li role="presentation"><a href="/signup">Signup</a></li> */}
               {/* <NavItem href="/composers">Composers</NavItem>
               <NavItem href="/contribute">Contribute</NavItem>
               <NavItem href="/donate">Donate</NavItem> */}
@@ -46,11 +33,11 @@ export default class NavbarComponent extends React.Component {
               <MenuItem divider />
               <MenuItem eventKey={3.3}>Separated link</MenuItem>
             </NavDropdown> */}
-          </Nav>
-          {/* <Nav pullRight>
-            <NavItem href="#">Link Right</NavItem>
-            <NavItem href="#">Link Right</NavItem>
-          </Nav> */}
+            </Nav>
+            <Nav pullRight>
+              <NavItem href="#">Signup</NavItem>
+              <NavItem href="#">Login</NavItem>
+            </Nav>
         </Navbar.Collapse>
         </Navbar>
       </div>

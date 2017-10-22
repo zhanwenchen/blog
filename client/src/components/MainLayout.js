@@ -8,13 +8,13 @@ import { Route } from 'react-router-dom';
 export default class MainLayout extends Component {
   render() {
     return (
-      <div className="col-xs-12 container" id="container">
-        <NavbarComponent id="navbar" />
-        <div className="content" id="content">
+      <div className="container" id="container">
+        <NavbarComponent className="col-xs-12" id="navbar" />
+        <div className="content col-xs-12" id="content">
           <Message />
           {this.props.children}
         </div>
-        <Footer id="footer"/>
+        <Footer id="footer col-xs-12"/>
       </div>
     )
   }
