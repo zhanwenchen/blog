@@ -44,46 +44,30 @@ export default class LoginForm extends React.Component {
     });
   }
 
-  // render() {
-  //   return (
-  //     <form onSubmit={this.handleSubmit}>
-  //       <label>
-  //         Email:
-  //         <input
-  //           name="username"
-  //           type="text"
-  //           valur={this.state.username}
-  //           onChange={this.handleInputChange} />
-  //       </label>
-  //       <br />
-  //       <label>
-  //         Password:
-  //         <input
-  //           name="password"
-  //           type="password"
-  //           value={this.state.password}
-  //           onChange={this.handleInputChange} />
-  //       </label>
-  //       <submit />
-  //     </form>
-  //   );
-  // }
   render() {
-    const {errorMessage} = this.props
-
     return (
       <Form>
-        <FormGroup controlId="formHorizontalEmail">
-          <ControlLabel>Email </ControlLabel>
-          <FormControl type="username" ref="username" onChange={this.handleChange} placeholder="Email" />
+        <FormGroup controlId="formEmail">
+          <ControlLabel>Email:</ControlLabel>
+          <FormControl
+            type="username"
+            ref="username"
+            onChange={this.handleInputChange}
+            placeholder="Email"
+          />
         </FormGroup>
-        <FormGroup controlId="formHorizontalPassword">
-          <ControlLabel>Password </ControlLabel>
-          <FormControl type="password" ref="password" onChange={this.handleChange} placeholder="Password" />
+        <br />
+        <FormGroup controlId="formPassword">
+          <ControlLabel>Password:</ControlLabel>
+          <FormControl
+            type="password"
+            ref="password"
+            onChange={this.handleInputChange}
+            placeholder="Password"
+          />
         </FormGroup>
-        <Button onClick={(event) => this.handleSubmit(event)}>Login</Button>
-        {errorMessage && <p style={{color:'red'}}>{errorMessage}</p>}
+        <Button onClick={this.handleSubmit}>Login</Button>
       </Form>
-    )
+    );
   }
 }
