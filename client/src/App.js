@@ -13,7 +13,7 @@ export default class App extends React.Component {
       <div className="container app" id='app'>
         <MainLayout>
           <Switch>
-            <Route exact path="/" exact component={Home} />
+            <Route exact path="/" component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/create-post" component={CreatePost} />
             {/* <Route path="/login" exact component={Login} />
