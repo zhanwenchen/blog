@@ -5,8 +5,4 @@ module.exports = {
     node: true,
   },
   extends: 'airbnb',
-  "rules": {
-    indent: [2, "tab"],
-    'no-tabs': 0,
-  }
 };
