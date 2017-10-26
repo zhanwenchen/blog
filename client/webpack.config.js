@@ -1,20 +1,17 @@
-process.env.DEBUG = 'express:*';
-process.env.BABEL_DISABLE_CACHE = 1;
-var webpack = require('webpack');
-var path = require('path');
+const path = require('path');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
-var publicPath = '/';
+// publicPath = '/build' because index.html requires a ./build/bundle.js
+const publicPath = '/build';
 
 module.exports = {
   // context: __dirname + '/src',
   entry: './src/index.js',
   output: {
-    path: __dirname + '/build',
+    path: path.join(__dirname, 'build'),
     filename: 'bundle.js',
-    // publicPath = '/build' because index.html requires a ./build/bundle.js
-    publicPath: '/build',
+    publicPath,
   },
   devServer: {
     // contentBase = '~/public/' so that index.html becomes the default html at GET '/'
@@ -38,8 +35,8 @@ module.exports = {
        */
       '/api/**': {
         target: 'http://[::1]:3000/',
-        pathRewrite: {'^/api' : ''},
-      }
+        pathRewrite: { '^/api': '' },
+      },
     },
   },
   module: {
@@ -49,16 +46,17 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015', 'react']
-        }
+          presets: ['es2015', 'react'],
+        },
       },
       {
         test: /\.css$/,
         loaders: [
           require.resolve('style-loader'),
-          require.resolve('css-loader')
-        ]
-      }
-    ]
-  }
-}
+          require.resolve('css-loader'),
+        ],
+      },
+    ],
+  },
+  watch: true,
+};
