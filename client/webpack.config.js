@@ -7,7 +7,7 @@ const publicPath = '/build';
 
 module.exports = {
   // context: __dirname + '/src',
-  entry: './src/index.js',
+  entry: './src/index.jsx',
   output: {
     path: path.join(__dirname, 'build'),
     filename: 'bundle.js',
