@@ -1,13 +1,13 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import MainLayout from './components/MainLayout';
-import Home from './views/Home';
+import Home from './components/Home';
 import Login from './views/Login';
 import CreatePost from './views/CreatePost';
 import './App.css';
 
 const App = () => (
-  <div className="container app" id="app">
+  <div className="container" id="app">
     <MainLayout>
       <Switch>
         <Route exact path="/" component={Home} />
