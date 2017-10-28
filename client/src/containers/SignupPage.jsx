@@ -34,8 +34,9 @@ class SignupPage extends React.Component {
    * @param {Object} event - the JavaScript event object
    */
   changeUser(event) {
-    const { name, user } = event.target;
-    user[name] = event.target.value;
+    const field = event.target.name;
+    const user = this.state.user;
+    user[field] = event.target.value;
 
     this.setState({
       user,
