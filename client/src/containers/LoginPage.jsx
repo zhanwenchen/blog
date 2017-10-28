@@ -26,9 +26,6 @@ class LoginPage extends React.Component {
   processForm(event) {
     // prevent default action. In this case, action is the form submission
     event.preventDefault();
-
-    console.log('email:', this.state.user.email);
-    console.log('password:', this.state.user.password);
   }
 
   /**
