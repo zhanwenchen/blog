@@ -1,5 +1,5 @@
 /**
-* routes/signup.js
+* @file routes/signup.js
 * route handler for signup logic
 * if user doesn't exist, create it with data in req, and then go to login
 */
@@ -9,12 +9,25 @@
 
 const passport = require('passport');
 const debug = require('debug');
-/**
-* route handler for POST '/users'
-* most of logic inside ~/configurePassport.js:
-*/
 
+const validateSignupForm = require('../utils/validateSignupForm');
+
+/**
+* @function
+* @description route handler for POST '/users'
+* most of logic inside ~/configurePassport.js:
+* @todo return passport invocation?
+* @param {Object} req
+* @param {Object} res
+* @param {Object} next
+* @return {Object}
+*/
 module.exports = (req, res, next) => {
+  const validationResult = validateSignupForm(req.body);
+  if (!validationResult.success) {
+    return res.status(400).json(validationResult);
+  }
+
   debug('postSignupHandler is being required');
   passport.authenticate('local-signup', (err, user, info) => {
     if (err) { return next(err); }
