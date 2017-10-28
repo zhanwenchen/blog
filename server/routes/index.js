@@ -15,6 +15,8 @@
 
 const express = require('express');
 
+const router = express.Router();
+
 // Import middleware
 const isLoggedIn = require('../middleware/isLoggedIn.js');
 
@@ -34,7 +36,6 @@ const createPostHandler = require('./createPostHandler');
 // const updatePostHandler = require('./updatePostHandler');
 const deletePostHandler = require('./deletePostHandler');
 
-const router = express.Router();
 
 router.post('/login', postLoginHandler); // NOTE: using passport.authenticate
 router.post('/logout', isLoggedIn, postLogoutHandler);
