@@ -16,6 +16,14 @@ class SignupPage extends React.Component {
       },
     };
 
+    /**
+     * processForm and changeUser have a fixed "this"
+     * (an instance of SignupPage) wherever they end up.
+     * Otherwise when they are called in the DOM,
+     * "this" will be the DOM "Window" instance, where
+     * "Window.processForm" and "Window.changeUser"
+     * will be "undefined".
+     */
     this.processForm = this.processForm.bind(this);
     this.changeUser = this.changeUser.bind(this);
   }
