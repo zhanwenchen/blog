@@ -1,21 +1,17 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import MainLayout from './components/MainLayout';
-import Home from './components/Home';
-import Login from './views/Login';
-import CreatePost from './views/CreatePost';
-import './App.css';
+import ReactDom from 'react-dom';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { browserHistory, Router } from 'react-router';
+import routes from './routes.js';
 
-const App = () => (
-  <div className="container" id="app">
-    <MainLayout>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/login" component={Login} />
-        <Route path="/create-post" component={CreatePost} />
-      </Switch>
-    </MainLayout>
-  </div>
-);
+// remove tap delay, essential for MaterialUI to work properly
+injectTapEventPlugin();
 
-export default App;
+ReactDom.render((
+  <MuiThemeProvider muiTheme={getMuiTheme()}>
+    <Router history={browserHistory} routes={routes} />
+  </MuiThemeProvider>,
+  document.getElementById('react-app')
+));
