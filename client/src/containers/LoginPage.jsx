@@ -1,6 +1,8 @@
 import React from 'react';
 import LoginForm from '../components/LoginForm.jsx';
 
+const LOGIN_URL = '/api/login';
+
 class LoginPage extends React.Component {
   /** @constructor */
   constructor(props) {
@@ -26,6 +28,36 @@ class LoginPage extends React.Component {
   processForm(event) {
     // prevent default action. In this case, action is the form submission
     event.preventDefault();
+
+    const data = encodeURIComponent(JSON.stringify({
+      email: this.state.email,
+      password: this.state.password,
+    }));
+
+    fetch(LOGIN_URL, {
+      method: 'POST',
+      body: data,
+    })
+      .then((response) => {
+        switch (response.status) {
+          case 200: {
+            this.setState({
+              errors: {},
+            });
+            console.log('The form is valid');
+            break;
+          }
+          default: {
+            const responseJson = response.json();
+            const errors = responseJson.erros ? responseJson.erros : {};
+            errors.summary = responseJson.message;
+
+            this.setState({
+              errors,
+            });
+          }
+        }
+      });
   }
 
   /**
