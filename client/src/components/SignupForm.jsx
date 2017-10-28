@@ -51,8 +51,7 @@ const SignupForm = ({
         <RaisedButton type="submit" label="Create New Account" primary />
       </div>
 
-      <CardText>Already have an account?
-        <Link to={'/login'}>Log in</Link>
+      <CardText>Already have an account? <Link to={'/login'}>Log in</Link>
       </CardText>
     </form>
   </Card>
