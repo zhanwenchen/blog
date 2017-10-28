@@ -1,8 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import SignupForm from '../components/SignupForm.jsx';
 
 class SignupPage extends React.Component {
-
   /** constructor */
   constructor(props) {
     super(props);
