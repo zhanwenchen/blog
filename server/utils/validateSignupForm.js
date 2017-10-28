@@ -6,7 +6,7 @@ const validator = require('validator');
  */
 module.exports = (payload) => {
   const errors = {};
-  let isFormValid = false;
+  let isFormValid = true; // REVIEW: is this the best approach for validation?
   let message = '';
 
   if (!payload || typeof payload.name !== 'string' || payload.name.trim().length === 0) {
