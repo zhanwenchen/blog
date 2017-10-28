@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -7,12 +8,13 @@ const publicPath = '/build';
 
 module.exports = {
   // context: __dirname + '/src',
-  entry: './src/index.jsx',
+  entry: './src/App.jsx',
   output: {
     path: path.join(__dirname, 'build'),
     filename: 'bundle.js',
     publicPath,
   },
+  devtool: '#eval-source-map',
   devServer: {
     // contentBase = '~/public/' so that index.html becomes the default html at GET '/'
     contentBase: path.join(__dirname, 'public'),
@@ -39,6 +41,11 @@ module.exports = {
       },
     },
   },
+  plugins: [
+    new webpack.LoaderOptionsPlugin({
+      debug: true,
+    }),
+  ],
   module: {
     loaders: [
       {
