@@ -35,7 +35,6 @@ app.use(session({
 
 // passport.js
 app.use(passport.initialize());
-app.use(passport.session()); // TODO: remove session in favor of JWT
 
 configurePassport();
 
