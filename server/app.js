@@ -19,7 +19,7 @@ debug(`env is ${env}`);
 const config = require('./config')[env];
 const routes = require('./routes/index');
 const models = require('./models');
-const configurePassport = require('./configurePassport');
+const configurePassport = require('./passport/configurePassport');
 
 const app = express();
 
@@ -35,7 +35,7 @@ app.use(session({
 
 // passport.js
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session()); // TODO: remove session in favor of JWT
 
 configurePassport();
 

@@ -5,8 +5,8 @@ const models = require('./models');
 
 const User = models.User;
 
-const signupStrategy = require('./passport/local-signup');
-const loginStrategy = require('./passport/local-login');
+const signupStrategy = require('./local-signup');
+const loginStrategy = require('./local-login');
 
 module.exports = () => {
   passport.serializeUser((user, done) => {
