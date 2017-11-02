@@ -5,8 +5,8 @@ const models = require('../models');
 
 const User = models.User;
 
-const signupStrategy = require('./localSignupStrategy');
-const loginStrategy = require('./localLoginStrategy');
+const localSignupStrategy = require('./localSignupStrategy');
+const localLoginStrategy = require('./localLoginStrategy');
 
 module.exports = () => {
   passport.serializeUser((user, done) => {
@@ -23,6 +23,6 @@ module.exports = () => {
       .catch((err) => { if (err) done(null, false); });
   });
 
-  passport.use('local-signup', signupStrategy);
-  passport.use('local-login', loginStrategy);
+  passport.use('local-signup', localSignupStrategy);
+  passport.use('local-login', localLoginStrategy);
 };
