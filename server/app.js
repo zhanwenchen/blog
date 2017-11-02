@@ -11,7 +11,6 @@ const path = require('path');
 const logger = require('morgan');
 const debug = require('debug')('blog');
 const bodyParser = require('body-parser');
-const session = require('express-session');
 const passport = require('passport');
 
 const env = process.env.NODE_ENV || 'development';
@@ -21,16 +20,6 @@ const models = require('./models');
 const configurePassport = require('./passport/configurePassport');
 
 const app = express();
-
-// configure express-session (cookie)
-// secret is used to compute hash for the session. Hide it.
-// resave, saveUnitialized = false - avoid race conditions for parallel requests
-// IDEA: session store?
-app.use(session({
-  secret: config.secret,
-  resave: false,
-  saveUninitialized: false,
-}));
 
 // passport.js
 app.use(passport.initialize());
