@@ -17,7 +17,6 @@ const passport = require('passport');
 const env = process.env.NODE_ENV || 'development';
 debug(`env is ${env}`);
 const config = require('./config')[env];
-const routes = require('./routes/index');
 const models = require('./models');
 const configurePassport = require('./passport/configurePassport');
 
@@ -43,7 +42,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+const publicRoutes = require('./routes/publicRoutes');
+const privateRoutes = require('./routes/privateRoutes');
+
+const isLoggedIn = require('./middleware/isLoggedIn.js');
+
+app.use('/', publicRoutes);
+app.use('/private', isLoggedIn, privateRoutes);
 // app.use('/users', users);
 
 // catch 404 and forward to error handler
