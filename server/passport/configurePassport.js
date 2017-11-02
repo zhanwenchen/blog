@@ -1,7 +1,7 @@
 const passport = require('passport');
 const debug = require('debug');
 
-const models = require('./models');
+const models = require('../models');
 
 const User = models.User;
 
