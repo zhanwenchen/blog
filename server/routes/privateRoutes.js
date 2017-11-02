@@ -18,8 +18,6 @@ const express = require('express');
 const router = express.Router();
 
 // Import middleware
-const isLoggedIn = require('../middleware/isLoggedIn.js');
-
 const postLogoutHandler = require('./postLogoutHandler');
 
 const getAllUsersHandler = require('./getAllUsersHandler');
@@ -32,15 +30,15 @@ const createPostHandler = require('./createPostHandler');
 const deletePostHandler = require('./deletePostHandler');
 
 
-router.post('/logout', isLoggedIn, postLogoutHandler);
+router.post('/logout', postLogoutHandler);
 
-router.get('/users', isLoggedIn, getAllUsersHandler);
-router.get('/users/:username', isLoggedIn, getOneUserHandler);
+router.get('/users', getAllUsersHandler);
+router.get('/users/:username', getOneUserHandler);
 // router.put('/users/:username', isLoggedIn, updateUserHandler);
 // router.delete('/users/:username', isLoggedIn, deleteUserHandler);
 
-router.post('/posts', isLoggedIn, createPostHandler);
+router.post('/posts', createPostHandler);
 // router.put('/posts/:string_id', isLoggedIn, updatePostHandler);
-router.delete('/posts/:string_id', isLoggedIn, deletePostHandler);
+router.delete('/posts/:string_id', deletePostHandler);
 
 module.exports = router;
