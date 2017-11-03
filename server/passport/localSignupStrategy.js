@@ -19,7 +19,15 @@ module.exports = new PassportLocalStrategy(
       name: req.body.name.trim(),
     };
 
-    return User.create(userData)
+    User.findOne({ where: { username: email } })
+      .then((existingUser) => {
+        if (existingUser) {
+          return done(null, false, { message: `user with email ${email} already exists` });
+        }
+        return existingUser;
+      })
+      .then(User.create(userData))
+      .catch(error => done(error, false, { message: 'error in local-signup' }))
       .then((newUser) => {
         if (newUser) {
           debug('In configurePassport.createUser. newUser was created. newUser is ', newUser);
@@ -28,6 +36,6 @@ module.exports = new PassportLocalStrategy(
         debug('In configurePassport.createUser. newUser was NOT created.');
         return done(null, false);
       })
-      .catch(error => done(error, false, { message: 'error in local-signup' }));
+      .catch(error => done(error, false, { message: 'unknown error in local-signup' }));
   },
 );
