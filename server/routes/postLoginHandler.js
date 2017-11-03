@@ -13,18 +13,20 @@ module.exports = (req, res, next) => {
   }
   // (err, user, info) => {} is a custom callback instead of
   // {  successRedirect: '/blah', failureRedirect: '/blahblahh' }
-  passport.authenticate('local-login', (err, user) => {
-    if (err) return next(err);
-    if (!user) return res.status(403).json({ message: 'no user found' });
+  return passport.authenticate('local-login', (err, token, info) => {
+    if (err) return res.status(401).json({ message: 'error authenticating' });
+    if (!token) return res.status(401).json(validationResult);
+
+    return res.json(Object.assign(validationResult, { token }));
 
     // Manually establish the session...
-    req.logIn(user, (error) => {
-      // console.log('In postLoginHandler. user is', user);
-      if (error) return next(error);
-      return res.status(200).json({
-        username: user.username,
-        message: 'user authenticated',
-      });
-    });
+    // req.logIn(user, (error) => {
+    //   // console.log('In postLoginHandler. user is', user);
+    //   if (error) return next(error);
+    //   return res.status(200).json({
+    //     username: user.username,
+    //     message: 'user authenticated',
+    //   });
+    // });
   })(req, res, next);
 };
