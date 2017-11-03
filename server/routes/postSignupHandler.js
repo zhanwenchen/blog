@@ -29,7 +29,8 @@ module.exports = (req, res, next) => {
   }
 
   debug('postSignupHandler is being required');
-  passport.authenticate('local-signup', (err, user, info) => {
+  // the params (err, user, info) are the parameters we provide to done in localSignupStrategy
+  return passport.authenticate('local-signup', (err, user, info) => {
     if (err) { return next(err); }
     if (!user) { return res.redirect('/'); }
 
