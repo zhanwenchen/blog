@@ -55,9 +55,9 @@ class SignupPage extends React.Component {
     event.preventDefault();
 
     const data = encodeURIComponent(JSON.stringify({
-      name: this.state.name,
-      email: this.state.email,
-      password: this.state.password,
+      name: this.state.user.name,
+      email: this.state.user.email,
+      password: this.state.user.password,
     }));
 
     fetch(SIGNUP_URL, {
