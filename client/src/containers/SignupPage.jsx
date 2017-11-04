@@ -70,7 +70,9 @@ class SignupPage extends React.Component {
             this.setState({
               errors: {},
             });
-            console.log('The form is valid');
+            localStorage.setItem('successMessage', response.message);
+            // redirect to login
+            this.context.router.replace('/login');
             break;
           }
           default: {
