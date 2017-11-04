@@ -35,7 +35,7 @@ const routes = {
   childRoutes: [
     {
       path: '/',
-      compoenent: Home,
+      component: Home,
     },
     {
       path: '/login',
