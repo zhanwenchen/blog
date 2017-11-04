@@ -8,12 +8,14 @@ const LoginForm = ({
   onSubmit,
   onChange,
   errors,
+  successMessage,
   user,
 }) => (
   <Card className="container">
     <form action="/" onSubmit={onSubmit}>
       <h2 className="card-heading">Login</h2>
 
+      {successMessage && <p className="success-message">{successMessage}</p>}
       {errors.sumary && <p className="error-message">{errors.summary}</p>}
 
       <div className="field-line">
@@ -52,6 +54,7 @@ LoginForm.propTypes = {
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  successMessage: PropTypes.string.isRequired,
 };
 
 export default LoginForm;
