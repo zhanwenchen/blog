@@ -8,7 +8,7 @@
 // IDEA: if user already exists, flash 'username ... already exists' message. See https://stackoverflow.com/questions/19797918/send-error-message-on-redirect
 
 const passport = require('passport');
-const debug = require('debug');
+const debug = require('debug')('blog');
 
 const validateSignupForm = require('../utils/validateSignupForm');
 
@@ -23,7 +23,9 @@ const validateSignupForm = require('../utils/validateSignupForm');
 * @return {Object}
 */
 module.exports = (req, res, next) => {
+  debug(`postSignupHandler: req is`, req);
   const validationResult = validateSignupForm(req.body);
+  debug(`postSignupHandler: validationResult is ${JSON.stringify(validationResult, null, 2)}`);
   if (!validationResult.success) {
     return res.status(400).json(validationResult);
   }
