@@ -4,7 +4,7 @@
   "description": "blog back-end",
   "main": "app.js",
   "scripts": {
-    "start": "DEBUG=blog node app.js",
+    "start": "DEBUG=blog nodemon app.js",
     "test": "DEBUG=blog mocha"
   },
   "author": "Zhanwen Chen",
@@ -32,6 +32,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-react": "^7.3.0"
+    "eslint-plugin-react": "^7.3.0",
+    "nodemon": "^1.12.1"
   }
 }
