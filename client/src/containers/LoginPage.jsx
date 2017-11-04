@@ -1,5 +1,6 @@
 import React from 'react';
 import LoginForm from '../components/LoginForm.jsx';
+import Auth from '../modules/Auth';
 
 const LOGIN_URL = '/api/login';
 
@@ -8,9 +9,19 @@ class LoginPage extends React.Component {
   constructor(props) {
     super(props);
 
+    const existingSuccessMessage = localStorage.getItem('successMessage');
+
+    let successMessage = '';
+
+    if (existingSuccessMessage) {
+      successMessage = existingSuccessMessage;
+      localStorage.removeItem('successMessage');
+    }
+
     // set the initial component state
     this.state = {
       errors: {},
+      successMessage,
       user: {
         email: '',
         password: '',
@@ -44,7 +55,11 @@ class LoginPage extends React.Component {
             this.setState({
               errors: {},
             });
-            console.log('The form is valid');
+            if ('token' in response) {
+              Auth.setToken(response.token);
+            } else {
+              throw new Error('No token in response', response);
+            }
             break;
           }
           default: {
@@ -80,6 +95,7 @@ class LoginPage extends React.Component {
         onSubmit={this.processForm}
         onChange={this.changeUser}
         errors={this.state.errors}
+        successMessage={this.state.successMessage}
         user={this.state.user}
       />
     );
