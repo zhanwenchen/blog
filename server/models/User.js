@@ -1,3 +1,4 @@
+// TODO: add username in addition to email in server/models/User.js, client/src/containers/SignupPage.jsx, client/src/components/SignupForm.jsx
 /** @file User.js - Sequelize class model for user */
 
 const Sequelize = require('sequelize');
