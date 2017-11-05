@@ -13,11 +13,11 @@ const models = require('../models');
 
 const User = models.User;
 
-const return401 = res => res.status(401).end();
+const return401 = res => res.status(401).json({ message: 'isLoggedIn: returning 401' });
 
 module.exports = (req, res, next) => {
   if (!req.headers.authorization) {
-    return res.status(401).end();
+    return return401(res);
   }
 
   // get the last part from an authorization header string like "bearer token-value"
@@ -33,6 +33,6 @@ module.exports = (req, res, next) => {
     // check if a user exists
     User.findById(userId)
       .then(possibleUser => (possibleUser ? next() : return401(res)))
-      .catch(e => return401(res));
+      .catch(error => return401(res));
   });
 };
