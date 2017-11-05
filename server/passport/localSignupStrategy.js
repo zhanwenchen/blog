@@ -1,3 +1,4 @@
+// TODO: consider deprecating passport local signup strategy. What's the point?
 const debug = require('debug');
 const PassportLocalStrategy = require('passport-local').Strategy;
 
