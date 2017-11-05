@@ -64,6 +64,10 @@ class SignupPage extends React.Component {
 
     fetch(SIGNUP_URL, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
       body: data,
     })
       .then((response) => {
