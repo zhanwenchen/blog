@@ -9,9 +9,14 @@ module.exports = (payload) => {
   let isFormValid = true; // REVIEW: is this the best approach for validation?
   let message = '';
 
-  if (!payload || typeof payload.name !== 'string' || payload.name.trim().length === 0) {
+  if (!payload || typeof payload.firstName !== 'string' || payload.firstName.trim().length === 0) {
     isFormValid = false;
-    errors.name = 'Please provide your name.';
+    errors.firstName = 'Please provide your first name.';
+  }
+
+  if (!payload || typeof payload.lastName !== 'string' || payload.lastName.trim().length === 0) {
+    isFormValid = false;
+    errors.lastName = 'Please provide your last name.';
   }
 
   if (!payload || typeof payload.email !== 'string' || !validator.isEmail(payload.email)) {
