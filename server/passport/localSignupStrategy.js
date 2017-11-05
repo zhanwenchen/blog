@@ -14,11 +14,11 @@ module.exports = new PassportLocalStrategy(
   },
   (req, email, password, done) => {
     const userData = {
-      email: email.trim(),
+      username: email.trim(),
       password: password.trim(),
-      name: req.body.name.trim(),
+      firstName: req.body.firstName.trim(),
+      lastName: req.body.lastName.trim(),
     };
-
     User.findOne({ where: { username: email } })
       .then((existingUser) => {
         if (existingUser) {
