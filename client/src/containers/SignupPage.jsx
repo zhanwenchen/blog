@@ -13,7 +13,8 @@ class SignupPage extends React.Component {
       errors: {},
       user: {
         email: '',
-        name: '',
+        firstName: '',
+        lastName: '',
         password: '',
       },
     };
@@ -54,11 +55,12 @@ class SignupPage extends React.Component {
     // prevent default action. In this case, action is the form submission
     event.preventDefault();
 
-    const data = encodeURIComponent(JSON.stringify({
-      name: this.state.user.name,
+    const data = JSON.stringify({
+      firstName: this.state.user.firstName,
+      lastName: this.state.user.lastName,
       email: this.state.user.email,
       password: this.state.user.password,
-    }));
+    });
 
     fetch(SIGNUP_URL, {
       method: 'POST',
