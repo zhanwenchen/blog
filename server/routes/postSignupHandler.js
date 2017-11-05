@@ -23,46 +23,28 @@ const validateSignupForm = require('../utils/validateSignupForm');
 * @return {Object}
 */
 module.exports = (req, res, next) => {
-  debug(`postSignupHandler: req.body is`, req.body);
   const validationResult = validateSignupForm(req.body);
-  debug(`postSignupHandler: validationResult is ${JSON.stringify(validationResult, null, 2)}`);
-  if (!validationResult.success) {
-    console.log('validation failed. Setting header to 400')
-    return res.status(400).json(validationResult);
-  }
+  if (!validationResult.success) return res.status(400).json(validationResult);
 
-  debug('postSignupHandler is being required');
   // the params (err, user, info) are the parameters we provide to done in localSignupStrategy
   return passport.authenticate('local-signup', (err, user, info) => {
     if (err) {
       /**
-       * TODO: (blog) you must call next(err) and handle error in app.use.
+       * TODO: (blog) you must call next(err) and handle error in app.use(path, handler).
        * next(err) stops express from running everything else.
        * if you did use the commented out code below, setHeader will be called
        * multiple times, resulting in an obscure error.
        */
-      return next(err);
-      // if (err instanceof UserExistsError || err.name === 'SequelizeUniqueConstraintError') {
-      //   console.log('UserExistsError: seting header to 409')
-      //   return res.status(409).json({
-      //     success: false,
-      //     message: 'Check the form for errors.',
-      //     errors: {
-      //       email: 'This email is already taken.',
-      //     },
-      //   });
-      // }
-      // console.log('other error: setting header to 409')
-      // return res.status(409).json({
-      //   success: false,
-      //   message: 'Check the form for errors.',
-      //   errors: {
-      //     email: 'This email is already taken.',
-      //   },
-      // });
-    }
-    if (!user) {
-      return res.status(409).json({
+      if (err.name === 'DuplicateUserError' || err.name === 'SequelizeUniqueConstraintError') {
+        return res.status(409).json({
+          success: false,
+          message: 'Check the form for errors.',
+          errors: {
+            email: 'This email is already taken.',
+          },
+        });
+      }
+      return res.status(400).json({
         success: false,
         message: 'Check the form for errors.',
         errors: {
@@ -70,8 +52,20 @@ module.exports = (req, res, next) => {
         },
       });
     }
-
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'Check the form for errors.',
+        errors: {
+          email: 'Error processing signup form.',
+        },
+      });
+    }
     debug('In postSignupHandler. In passport.authenticate callback. User is', user);
-    return res.status(200).json(user);
+    return res.status(200).json({
+      success: true,
+      message: '',
+      errors: {},
+    });
   })(req, res, next);
 };
