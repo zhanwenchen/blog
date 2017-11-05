@@ -70,20 +70,20 @@ class SignupPage extends React.Component {
       },
       body: data,
     })
-      .then((response) => {
-        switch (response.status) {
+      .then(response => response.json())
+      .then((responseJson) => {
+        switch (responseJson.status) {
           case 200: {
             this.setState({
               errors: {},
             });
-            localStorage.setItem('successMessage', response.message);
+            localStorage.setItem('successMessage', responseJson.message);
             // redirect to login
             this.context.router.replace('/login');
             break;
           }
           default: {
-            const responseJson = response.json();
-            const errors = responseJson.erros ? responseJson.erros : {};
+            const errors = responseJson.errors ? responseJson.errors : {};
             errors.summary = responseJson.message;
 
             this.setState({
@@ -91,7 +91,8 @@ class SignupPage extends React.Component {
             });
           }
         }
-      });
+      })
+      .catch((error) => { throw error; });
   }
 
   /**
