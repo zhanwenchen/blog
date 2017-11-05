@@ -70,6 +70,6 @@ module.exports =
     * @return {Promise(boolean)} whether a passport matches the hash
     */
     async isPasswordValid(passwordInput) {
-      return bcrypt.compare(passwordInput, this.passwordhash);
+      return bcrypt.compare(passwordInput, this.password);
     }
   };
