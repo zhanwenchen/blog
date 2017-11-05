@@ -19,6 +19,7 @@ module.exports = new PassportLocalStrategy(
       firstName: req.body.firstName.trim(),
       lastName: req.body.lastName.trim(),
     };
+
     User.findOne({ where: { username: email } })
       .then((existingUser) => {
         if (existingUser) {
@@ -26,7 +27,8 @@ module.exports = new PassportLocalStrategy(
         }
         return existingUser;
       })
-      .then(User.create(userData))
+      // TODO: important promise lesson: then(() => Promise) instead of then(Promise)
+      .then(() => User.create(userData))
       .catch(error => done(error, false, { message: 'error in local-signup' }))
       .then((newUser) => {
         if (newUser) {
