@@ -1,6 +1,7 @@
 // TODO: consider deprecating passport local signup strategy. What's the point?
-const debug = require('debug');
+const debug = require('debug')('blog');
 const PassportLocalStrategy = require('passport-local').Strategy;
+// const { UniqueConstraintError } = require('sequelize');
 
 const models = require('../models');
 
@@ -31,26 +32,26 @@ module.exports = new PassportLocalStrategy(
      * second param (whether a user exists)
      * as an error condition which the handler can then use to return
      * a status once
+     * NOTE: The issue is the promise chain: once an error/rejection is caught, the chain continues
+     * NOTE: make sure done is called once and only once.
      */
     User.findOne({ where: { username: email } })
       .then((existingUser) => {
         if (existingUser) {
-          return done(null, false, { message: `user with email ${email} already exists` });
+          /**
+           * You must throw an error to abort the promise chain. Otherwise
+           * the rest will be executed regardless of returning "done()"
+           */
+          const duplicateUserError = new Error(`user with email ${email} already exists`);
+          duplicateUserError.name = 'DuplicateUserError';
+          throw duplicateUserError;
         }
-        return null;
       })
       // TODO: important promise lesson: then(() => Promise) instead of then(Promise)
       .then(() => User.create(userData))
-      .catch(error =>
-        done(null, false, { message: `error in local-signup: ${error}` }),
-      )
       .then((newUser) => {
-        if (newUser) {
-          debug('In configurePassport.createUser. newUser was created. newUser is ', newUser);
-          return done(null, newUser);
-        }
-        debug('In configurePassport.createUser. newUser was NOT created.');
-        return done(null, false);
+        if (newUser) { return done(null, newUser); }
+        throw new Error('newUser was not created for some reason');
       })
       .catch(error => done(error, false, { message: 'unknown error in local-signup' }));
   },
