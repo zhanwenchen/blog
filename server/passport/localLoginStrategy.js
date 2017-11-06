@@ -1,14 +1,17 @@
 const PassportLocalStrategy = require('passport-local').Strategy;
 const jwt = require('jsonwebtoken');
 
-const config = require('../config');
+const env = process.env.NODE_ENV || 'development';
+const config = require('../config')[env];
 
 const models = require('../models');
 
 const User = models.User;
 
-const incorrectCredentialsError = new Error('Incorrect email or password');
-incorrectCredentialsError.name = 'IncorrectCredentialsError';
+const incorrectEmailError = new Error('Incorrect email');
+incorrectEmailError.name = 'incorrectEmailError';
+const incorrectPasswordError = new Error('Incorrect password');
+incorrectPasswordError.name = 'incorrectPasswordError';
 
 /**
  * Return the Passport Local Strategy object.
@@ -27,34 +30,22 @@ module.exports = new PassportLocalStrategy(
     };
 
     // find a user by email address
-    User.findOne({ username: userData.email })
+    User.findOne({ where: { username: userData.email } })
       .then((possibleUser) => {
-        if (!possibleUser) {
-          return done(incorrectCredentialsError);
-        }
-        return possibleUser;
-      })
-      .catch(error => done(error))
-      .then((user) => {
-        // check if a hashed user's password is equal to a value saved in the database
-        user.isPasswordValid(userData.password)
+        if (!possibleUser) { throw incorrectEmailError; }
+        possibleUser.isPasswordValid(userData.password)
           .then((isValid) => {
-            if (!isValid) {
-              return done(incorrectCredentialsError);
-            }
-            const payload = {
-              sub: user.id,
-            };
+            if (!isValid) { throw incorrectPasswordError; }
+            const user = possibleUser;
+            const payload = { sub: user.id };
 
             // create a token string
             const token = jwt.sign(payload, config.jwtSecret);
-            const data = {
-              name: user.name,
-            };
+            const data = { name: user.name };
 
             return done(null, token, data);
-          })
-          .catch(error => done(error));
-      });
+          });
+      })
+      .catch(error => done(error));
   },
 );
