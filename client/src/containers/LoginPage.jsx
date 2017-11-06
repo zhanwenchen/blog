@@ -2,6 +2,8 @@ import React from 'react';
 import LoginForm from '../components/LoginForm.jsx';
 import Auth from '../modules/Auth';
 
+var Router = require('react-router');
+
 const LOGIN_URL = '/api/login';
 
 class LoginPage extends React.Component {
@@ -40,38 +42,49 @@ class LoginPage extends React.Component {
     // prevent default action. In this case, action is the form submission
     event.preventDefault();
 
-    const data = encodeURIComponent(JSON.stringify({
-      email: this.state.email,
-      password: this.state.password,
-    }));
+    const data = JSON.stringify({
+      email: this.state.user.email,
+      password: this.state.user.password,
+    });
 
     fetch(LOGIN_URL, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
       body: data,
     })
       .then((response) => {
-        switch (response.status) {
-          case 200: {
-            this.setState({
-              errors: {},
-            });
-            if ('token' in response) {
-              Auth.setToken(response.token);
-            } else {
-              throw new Error('No token in response', response);
-            }
-            break;
-          }
-          default: {
-            const responseJson = response.json();
-            const errors = responseJson.erros ? responseJson.erros : {};
-            errors.summary = responseJson.message;
+        response.json()
+          .then((responseJson) => {
+            console.log('responseJson is', responseJson)
+            switch (response.status) {
+              case 200: {
+                this.setState({
+                  errors: {},
+                });
+                if ('token' in responseJson) {
+                  Auth.setToken(responseJson.token);
+                } else {
+                  throw new Error('No token in response', responseJson);
+                }
+                console.log('trying to redirect')
+                Router.browserHistory.push('/');
+                // this.context.router.history.push('/');
+                break;
+              }
+              default: {
+                console.log('in error state')
+                const errors = responseJson.errors ? responseJson.errors : {};
+                errors.summary = responseJson.message;
 
-            this.setState({
-              errors,
-            });
-          }
-        }
+                this.setState({
+                  errors,
+                });
+              }
+            }
+          });
       });
   }
 
