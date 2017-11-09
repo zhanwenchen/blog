@@ -42,8 +42,7 @@ const privateRoutes = require('./routes/privateRoutes');
 app.use('/', publicRoutes);
 app.use('/private',
   expressJWT({ secret: config.jwtSecret }),
-  privateRoutes);
-// app.use('/users', users);
+  privateRoutes); // valid token will be accessed via req.user
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
