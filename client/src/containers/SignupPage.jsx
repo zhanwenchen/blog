@@ -1,5 +1,5 @@
-import React from 'react';
-import { Router } from 'react-router';
+import React, { PropTypes } from 'react';
+// import { Router } from 'react-router';
 import SignupForm from '../components/SignupForm.jsx';
 
 const SIGNUP_URL = '/api/signup';
@@ -81,8 +81,7 @@ class SignupPage extends React.Component {
                 });
                 localStorage.setItem('successMessage', responseJson.message);
                 // redirect to login
-                Router.browserHistory.push('/login');
-                // this.context.router.history.push('/');
+                this.context.router.replace('/login');
                 break;
               }
               default: {
@@ -114,5 +113,9 @@ class SignupPage extends React.Component {
     );
   }
 }
+
+SignupPage.contextTypes = {
+  router: PropTypes.object.isRequired,
+};
 
 export default SignupPage;
