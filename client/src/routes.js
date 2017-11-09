@@ -7,6 +7,7 @@ import Base from './components/Base.jsx';
 import Home from './components/Home.jsx';
 import LoginPage from './containers/LoginPage.jsx';
 import SignupPage from './containers/SignupPage.jsx';
+import CreatePostPage from './containers/CreatePostPage.jsx';
 // import UserPage from './';
 import Auth from './modules/Auth';
 
@@ -54,6 +55,10 @@ const routes = {
         // change the current URL to /
         replace('/');
       },
+    },
+    {
+      path: '/posts/new',
+      getComponent: bounceIfNotLoggedIn(CreatePostPage),
     },
     // {
     //   path: '/user/:userId',

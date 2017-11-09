@@ -12,6 +12,7 @@ const Base = ({ children }) => (
       {Auth.isTokenExist()
         ? (
           <div className="top-bar-right">
+            <Link to="/posts/new">Create Post</Link>
             <Link to="/logout">Log out</Link>
           </div>
         )
