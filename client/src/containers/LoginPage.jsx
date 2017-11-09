@@ -1,5 +1,5 @@
 import React from 'react';
-import Router from 'react-router';
+import { Router } from 'react-router';
 import LoginForm from '../components/LoginForm.jsx';
 import Auth from '../modules/Auth';
 

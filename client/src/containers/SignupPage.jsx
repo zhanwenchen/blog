@@ -1,5 +1,5 @@
 import React from 'react';
-import Router from 'react-router';
+import { Router } from 'react-router';
 import SignupForm from '../components/SignupForm.jsx';
 
 const SIGNUP_URL = '/api/signup';
