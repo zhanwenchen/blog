@@ -43,12 +43,12 @@ module.exports =
     static associate(models) {
       // Using additional options like CASCADE etc for demonstration
       // Can also simply do Task.belongsTo(models.Post);
-      this.hasMany(models.Comment, {
-        onDelete: 'CASCADE',
-        foreignKey: {
-          allowNull: false,
-        },
-      });
+      // this.hasMany(models.Comment, {
+      //   onDelete: 'CASCADE',
+      //   foreignKey: {
+      //     allowNull: false,
+      //   },
+      // });
 
       // Using additional options like CASCADE etc for demonstration
       // Can also simply do Task.belongsTo(models.Post);
