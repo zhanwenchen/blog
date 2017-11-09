@@ -1,4 +1,5 @@
 import React from 'react';
+import Router from 'react-router';
 import SignupForm from '../components/SignupForm.jsx';
 
 const SIGNUP_URL = '/api/signup';
@@ -70,27 +71,30 @@ class SignupPage extends React.Component {
       },
       body: data,
     })
-      .then(response => response.json())
-      .then((responseJson) => {
-        switch (responseJson.status) {
-          case 200: {
-            this.setState({
-              errors: {},
-            });
-            localStorage.setItem('successMessage', responseJson.message);
-            // redirect to login
-            this.context.router.replace('/login');
-            break;
-          }
-          default: {
-            const errors = responseJson.errors ? responseJson.errors : {};
-            errors.summary = responseJson.message;
+      .then((response) => {
+        response.json()
+          .then((responseJson) => {
+            switch (response.status) {
+              case 200: {
+                this.setState({
+                  errors: {},
+                });
+                localStorage.setItem('successMessage', responseJson.message);
+                // redirect to login
+                Router.browserHistory.push('/login');
+                // this.context.router.history.push('/');
+                break;
+              }
+              default: {
+                const errors = responseJson.errors ? responseJson.errors : {};
+                errors.summary = responseJson.message;
 
-            this.setState({
-              errors,
-            });
-          }
-        }
+                this.setState({
+                  errors,
+                });
+              }
+            }
+          });
       })
       .catch((error) => { throw error; });
   }
