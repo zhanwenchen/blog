@@ -6,6 +6,7 @@
 
 // Import module dependencies
 const express = require('express');
+const expressJWT = require('express-jwt');
 const path = require('path');
 // const favicon = require('serve-favicon');
 const logger = require('morgan');
@@ -21,6 +22,10 @@ const configurePassport = require('./passport/configurePassport');
 
 const app = express();
 
+// app.get('/protected',
+//   expressJWT({ secret: config.jwtSecret }),
+//   (req, res) => (!req.user.admin ? res.sendStatus(401) : res.sendStatus(200)));
+
 // passport.js
 app.use(passport.initialize());
 
@@ -34,10 +39,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 const publicRoutes = require('./routes/publicRoutes');
 const privateRoutes = require('./routes/privateRoutes');
 
-const isLoggedIn = require('./middleware/isLoggedIn.js');
-
 app.use('/', publicRoutes);
-app.use('/private', isLoggedIn, privateRoutes);
+app.use('/private',
+  expressJWT({ secret: config.jwtSecret }),
+  privateRoutes);
 // app.use('/users', users);
 
 // catch 404 and forward to error handler

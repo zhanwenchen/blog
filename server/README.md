@@ -1,4 +1,6 @@
+-[ ] TODO: (blog post) `return done()` is really `done(); return;`. Similar with `return next(err);` is same as `next(err); return;`. The latter is less confusing.
 -[ ] TODO: add username in addition to email in server/models/User.js, client/src/containers/SignupPage.jsx, client/src/components/SignupForm.jsx
+-[ ] TODO: maybe it doesn't make sense to have localSignupStrategy at all. What's the point?
 
 1. You should `return` res.json in your handlers
 
