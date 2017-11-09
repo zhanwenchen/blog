@@ -1,8 +1,7 @@
 import React from 'react';
+import Router from 'react-router';
 import LoginForm from '../components/LoginForm.jsx';
 import Auth from '../modules/Auth';
-
-var Router = require('react-router');
 
 const LOGIN_URL = '/api/login';
 
@@ -58,7 +57,6 @@ class LoginPage extends React.Component {
       .then((response) => {
         response.json()
           .then((responseJson) => {
-            console.log('responseJson is', responseJson)
             switch (response.status) {
               case 200: {
                 this.setState({
@@ -69,13 +67,11 @@ class LoginPage extends React.Component {
                 } else {
                   throw new Error('No token in response', responseJson);
                 }
-                console.log('trying to redirect')
                 Router.browserHistory.push('/');
                 // this.context.router.history.push('/');
                 break;
               }
               default: {
-                console.log('in error state')
                 const errors = responseJson.errors ? responseJson.errors : {};
                 errors.summary = responseJson.message;
 
@@ -85,7 +81,8 @@ class LoginPage extends React.Component {
               }
             }
           });
-      });
+      })
+      .catch((error) => { throw error; });
   }
 
   /**
