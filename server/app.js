@@ -22,13 +22,7 @@ const configurePassport = require('./passport/configurePassport');
 
 const app = express();
 
-// app.get('/protected',
-//   expressJWT({ secret: config.jwtSecret }),
-//   (req, res) => (!req.user.admin ? res.sendStatus(401) : res.sendStatus(200)));
-
-// passport.js
 app.use(passport.initialize());
-
 configurePassport();
 
 app.use(logger('dev'));
