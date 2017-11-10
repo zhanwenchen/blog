@@ -30,6 +30,9 @@ module.exports = (req, res) => {
     title: req.body.title,
     body: req.body.body,
   })
-    .then(newPost => res.status(200).json({ newPost }))
-    .catch((err) => { throw err; });
+    .then(post => res.status(200).json({ post }))
+    .catch((error) => {
+      console.error(error);
+      return res.status(500).json({ error })
+    });
 };

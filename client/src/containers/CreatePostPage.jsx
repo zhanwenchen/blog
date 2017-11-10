@@ -79,8 +79,9 @@ class CreatePostPage extends React.Component {
                 });
                 localStorage.setItem('successMessage', responseJson.message);
                 // redirect to login
-                const newPostStringId = responseJson.newPost.string_id;
-                const newPostURL = `/posts/newPost/${newPostStringId}`;
+                const newPostStringId = responseJson.post.string_id;
+                const newPostURL = `/posts/${newPostStringId}`;
+                console.log('trying to go to', newPostURL)
                 this.context.router.replace(newPostURL);
                 break;
               }
