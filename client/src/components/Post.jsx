@@ -13,7 +13,7 @@ const Post = ({
     <p>Last updated on {post.updatedAt}</p>
     <h2 className="card-heading">{post.title}</h2>
 
-    {post.body}
+    <CardText>{post.body}</CardText>
 
   </Card>
 );
