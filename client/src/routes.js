@@ -8,6 +8,7 @@ import Home from './components/Home.jsx';
 import LoginPage from './containers/LoginPage.jsx';
 import SignupPage from './containers/SignupPage.jsx';
 import CreatePostPage from './containers/CreatePostPage.jsx';
+import PostPage from './containers/PostPage.jsx';
 // import UserPage from './';
 import Auth from './modules/Auth';
 
@@ -20,15 +21,14 @@ import Auth from './modules/Auth';
  * @return {function} a react
  * @example {path: '/protected', getComponent: protectedComponent(ProtectedPage)}
  */
-const bounceIfNotLoggedIn = (protectedComponent) => {
-  return (location, callback) => {
+const bounceIfNotLoggedIn = protectedComponent =>
+  (location, callback) => {
     if (Auth.isTokenExist()) {
       callback(null, protectedComponent);
     } else {
       callback(null, LoginPage);
     }
   };
-};
 
 const routes = {
   // base component (wrapper for the whole application).
@@ -59,6 +59,10 @@ const routes = {
     {
       path: '/posts/new',
       getComponent: bounceIfNotLoggedIn(CreatePostPage),
+    },
+    {
+      path: '/posts/:stringId',
+      component: PostPage,
     },
     // {
     //   path: '/user/:userId',
