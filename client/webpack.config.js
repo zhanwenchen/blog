@@ -1,10 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
 // publicPath = '/build' because index.html requires a ./build/bundle.js
-const publicPath = '/build';
+// const publicPath = '/build'; // Was workings except for appended localhost:8080/posts/new/build/bundle.js
+const publicPath = '/';
 
 module.exports = {
   // context: __dirname + '/src',
@@ -44,6 +46,10 @@ module.exports = {
   plugins: [
     new webpack.LoaderOptionsPlugin({
       debug: true,
+    }),
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: './public/index.html',
     }),
   ],
   module: {
