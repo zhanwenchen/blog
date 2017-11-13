@@ -9,6 +9,7 @@ import LoginPage from './containers/LoginPage.jsx';
 import SignupPage from './containers/SignupPage.jsx';
 import CreatePostPage from './containers/CreatePostPage.jsx';
 import PostPage from './containers/PostPage.jsx';
+import AllPostsPage from './containers/AllPostsPage.jsx';
 // import UserPage from './';
 import Auth from './modules/Auth';
 
@@ -63,6 +64,10 @@ const routes = {
     {
       path: '/posts/:stringId',
       component: PostPage,
+    },
+    {
+      path: '/posts',
+      component: AllPostsPage,
     },
     // {
     //   path: '/user/:userId',

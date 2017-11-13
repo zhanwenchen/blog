@@ -1,6 +1,6 @@
 import { Card, CardTitle } from 'material-ui/Card';
 import React from 'react';
-import Posts from '../components/Posts';
+import Posts from '../containers/AllPostsPage.jsx';
 
 const Home = () => (
   <Card className="container">

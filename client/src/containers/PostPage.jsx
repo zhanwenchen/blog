@@ -10,19 +10,16 @@ class PostPage extends React.Component {
 
     this.state = {
       errors: {},
-      post: {
-        stringId: '',
-        title: '',
-        body: '',
-        author: '',
-        createdAt: null,
-        updatedAt: null,
-      },
+      stringId: '',
+      title: '',
+      body: '',
+      author: '',
+      createdAt: null,
+      updatedAt: null,
     };
   }
 
   componentDidMount() {
-    console.log('PostPage')
     const paramStringId = this.props.params.stringId;
     fetch(GET_POST_URL(paramStringId))
       .then((response) => {
@@ -30,8 +27,6 @@ class PostPage extends React.Component {
           .then((responseJson) => {
             switch (response.status) {
               case 200: {
-
-                console.log('responseJson is', responseJson)
                 this.setState({
                   errors: {},
                 });
@@ -39,8 +34,21 @@ class PostPage extends React.Component {
                 localStorage.setItem('successMessage', responseJson.message);
                 const possiblePost = responseJson.post;
                 if (!_.isEmpty(possiblePost) && _.isObject(possiblePost)) {
+                  // const {
+                  //   stringId,
+                  //   title,
+                  //   author,
+                  //   body,
+                  //   createdAt,
+                  //   updatedAt,
+                  // } = possiblePost;
                   this.setState({
-                    post: possiblePost,
+                    stringId: possiblePost.string_id,
+                    title: possiblePost.title,
+                    author: possiblePost.author,
+                    body: possiblePost.body,
+                    createdAt: possiblePost.createdAt,
+                    updatedAt: possiblePost.updatedAt,
                   });
                 } else {
                   // TODO: handle 404 error in the front-end
@@ -66,7 +74,13 @@ class PostPage extends React.Component {
     return (
       <Post
         errors={this.state.errors}
-        post={this.state.post}
+        // post={this.state.post}
+        stringId={this.state.stringId}
+        author={this.state.author}
+        title={this.state.title}
+        body={this.state.body}
+        createdAt={this.state.createdAt}
+        updatedAt={this.state.updatedAt}
       />
     );
   }
