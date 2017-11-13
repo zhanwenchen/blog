@@ -16,7 +16,7 @@ const Posts = ({
     {posts.length > 0 && <p> what </p> &&
       posts.map(post => (
         <Post
-          stringId={post.stringId}
+          stringId={post.string_id}
           author={post.author}
           title={post.title}
           body={_.truncate(post.body, {

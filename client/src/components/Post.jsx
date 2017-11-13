@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardText } from 'material-ui/Card';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const Post = ({
   errors,
@@ -15,7 +15,9 @@ const Post = ({
   <Card className="container">
     {errors && errors.summary && <p className="error-message">{errors.summary}</p>}
 
-    <h2 className="card-heading"><Link to={stringId}>{title}</Link></h2>
+    {/* <h2 className="card-heading"><Link href={`/posts/${stringId}`}>{title}</Link></h2> */}
+    <Link to={`/posts/${stringId}`}><h2 className="card-heading">{title}</h2></Link>
+    {/* <h2 className="card-heading">{title}</h2> */}
     <p>Author: {author}. Posted on {createdAt}</p>
     <p>Last updated on {updatedAt}</p>
 

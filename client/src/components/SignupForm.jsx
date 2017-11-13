@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const SignupForm = ({
   onSubmit,

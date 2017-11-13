@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { browserHistory, Router } from 'react-router';
+import { BrowserHistory, Router } from 'react-router-dom';
 import CreatePostForm from '../components/CreatePostForm.jsx';
 import Auth from '../modules/Auth';
 

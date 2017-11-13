@@ -4,6 +4,7 @@
  */
 // FIXME: this routes configuration might be deprecated by react-router v4
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import Base from './components/Base.jsx';
 import Home from './components/Home.jsx';
 import LoginPage from './containers/LoginPage.jsx';
