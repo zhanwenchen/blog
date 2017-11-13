@@ -4,23 +4,33 @@ import { Link } from 'react-router';
 
 const Post = ({
   errors,
-  post,
+  stringId,
+  author,
+  title,
+  body,
+  createdAt,
+  updatedAt,
 }) => (
   <Card className="container">
-    {errors.summary && <p className="error-message">{errors.summary}</p>}
+    {errors && errors.summary && <p className="error-message">{errors.summary}</p>}
 
-    <p>Author: {post.author}. Posted on {post.createdAt}</p>
-    <p>Last updated on {post.updatedAt}</p>
-    <h2 className="card-heading">{post.title}</h2>
+    <h2 className="card-heading"><Link to={stringId}>{title}</Link></h2>
+    <p>Author: {author}. Posted on {createdAt}</p>
+    <p>Last updated on {updatedAt}</p>
 
-    <CardText>{post.body}</CardText>
+    <CardText>{body}</CardText>
 
   </Card>
 );
 
 Post.propTypes = {
   errors: PropTypes.object.isRequired,
-  post: PropTypes.object.isRequired,
+  stringId: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+  createdAt: PropTypes.instanceOf(Date).isRequired,
+  updatedAt: PropTypes.instanceOf(Date).isRequired,
 };
 
 export default Post;
