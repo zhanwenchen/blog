@@ -1,5 +1,6 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Card, CardText } from 'material-ui/Card';
-import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 const Post = ({

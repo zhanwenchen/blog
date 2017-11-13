@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { browserHistory, Router } from 'react-router';
 import CreatePostForm from '../components/CreatePostForm.jsx';
 import Auth from '../modules/Auth';

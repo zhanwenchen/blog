@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react';
-// import { Router } from 'react-router';
+import React from 'react';
+import PropTypes from 'prop-types';
 import SignupForm from '../components/SignupForm.jsx';
 
 const SIGNUP_URL = '/api/signup';
