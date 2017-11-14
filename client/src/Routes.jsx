@@ -10,8 +10,8 @@ import SignupPage from './containers/SignupPage.jsx';
 import CreatePostPage from './containers/CreatePostPage.jsx';
 import PostPage from './containers/PostPage.jsx';
 import AllPostsPage from './containers/AllPostsPage.jsx';
+import LogoutPage from './containers/LogoutPage.jsx'
 // import UserPage from './';
-import Auth from './modules/Auth';
 
 /**
  * @function bounceIfNotLoggedIn
@@ -37,58 +37,12 @@ const Routes = () => (
       <Route exact path="/" render={Home} />
       <Route exact path="/login" component={LoginPage} />
       <Route exact path="/signup" component={SignupPage} />
-      <Route exact path="/posts/:stringId" component={PostPage} />
       <Route exact path="/posts" component={AllPostsPage} />
-      {/* <Route exact path='/logout' component={SignupPage}/> */}
+      <Route exact path="/posts/new" component={CreatePostPage} />
+      <Route exact path="/posts/:stringId" component={PostPage} />
+      <Route exact pathh="/logout" component={LogoutPage} />
     </Switch>
   </Base>
 );
 
 export default Routes;
-
-// const routes = {
-//   // base component (wrapper for the whole application).
-//   component: Base,
-//   childRoutes: [
-//     {
-//       path: '/',
-//       component: Home,
-//     },
-//     {
-//       path: '/login',
-//       component: LoginPage,
-//     },
-//     {
-//       path: '/signup',
-//       component: SignupPage,
-//     },
-//     {
-//       path: '/logout',
-//       // TODO: remove server-side logout?
-//       onEnter: (nextState, replace) => {
-//         Auth.removeToken();
-//
-//         // change the current URL to /
-//         replace('/');
-//       },
-//     },
-//     {
-//       path: '/posts/new',
-//       getComponent: bounceIfNotLoggedIn(CreatePostPage),
-//     },
-//     {
-//       path: '/posts/:stringId',
-//       component: PostPage,
-//     },
-//     {
-//       path: '/posts',
-//       component: AllPostsPage,
-//     },
-//     // {
-//     //   path: '/user/:userId',
-//     //   getComponent: bounceIfNotLoggedIn(UserPage),
-//     // },
-//   ],
-// };
-//
-// export default routes;
