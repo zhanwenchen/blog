@@ -18,7 +18,8 @@ const Post = ({
     {/* <h2 className="card-heading"><Link href={`/posts/${stringId}`}>{title}</Link></h2> */}
     <Link to={`/posts/${stringId}`}><h2 className="card-heading">{title}</h2></Link>
     {/* <h2 className="card-heading">{title}</h2> */}
-    <p>Author: {author}. Posted on {createdAt}</p>
+    <p>Author: {author}</p>
+    <p>Posted on {createdAt}</p>
     <p>Last updated on {updatedAt}</p>
 
     <CardText>{body}</CardText>
@@ -32,8 +33,8 @@ Post.propTypes = {
   author: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
-  createdAt: PropTypes.instanceOf(Date).isRequired,
-  updatedAt: PropTypes.instanceOf(Date).isRequired,
+  // createdAt: PropTypes.instanceOf(Date).isRequired,
+  // updatedAt: PropTypes.instanceOf(Date).isRequired,
 };
 
 export default Post;
