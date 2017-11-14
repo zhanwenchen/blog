@@ -5,10 +5,10 @@ import Auth from '../modules/Auth';
 
 const LOGIN_URL = '/api/login';
 
-class LoginPage extends React.Component {
+export default class LoginPage extends React.Component {
   /** @constructor */
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
 
     const existingSuccessMessage = localStorage.getItem('successMessage');
 
@@ -67,7 +67,7 @@ class LoginPage extends React.Component {
                 } else {
                   throw new Error('No token in response', responseJson);
                 }
-                this.context.router.replace('/');
+                this.props.history.push('/');
                 break;
               }
               default: {
@@ -110,9 +110,3 @@ class LoginPage extends React.Component {
     );
   }
 }
-
-LoginPage.contextTypes = {
-  router: PropTypes.object.isRequired,
-};
-
-export default LoginPage;

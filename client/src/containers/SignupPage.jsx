@@ -4,7 +4,7 @@ import SignupForm from '../components/SignupForm.jsx';
 
 const SIGNUP_URL = '/api/signup';
 
-class SignupPage extends React.Component {
+export default class SignupPage extends React.Component {
   /** constructor */
   constructor(props) {
     super(props);
@@ -81,7 +81,7 @@ class SignupPage extends React.Component {
                 });
                 localStorage.setItem('successMessage', responseJson.message);
                 // redirect to login
-                this.context.router.replace('/login');
+                this.props.history.push('/login');
                 break;
               }
               default: {
@@ -113,9 +113,3 @@ class SignupPage extends React.Component {
     );
   }
 }
-
-SignupPage.contextTypes = {
-  router: PropTypes.object.isRequired,
-};
-
-export default SignupPage;

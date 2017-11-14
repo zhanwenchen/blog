@@ -6,10 +6,10 @@ import Auth from '../modules/Auth';
 
 const CREATE_POST_URL = '/api/private/posts';
 
-class CreatePostPage extends React.Component {
+export default class CreatePostPage extends React.Component {
   /** constructor */
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
 
     // set the initial comonent state
     this.state = {
@@ -82,8 +82,7 @@ class CreatePostPage extends React.Component {
                 // redirect to login
                 const newPostStringId = responseJson.post.string_id;
                 const newPostURL = `/posts/${newPostStringId}`;
-                console.log('trying to go to', newPostURL)
-                this.context.router.replace(newPostURL);
+                this.props.history.push(newPostURL);
                 break;
               }
               default: {
@@ -115,9 +114,3 @@ class CreatePostPage extends React.Component {
     );
   }
 }
-
-CreatePostPage.contextTypes = {
-  router: PropTypes.object.isRequired,
-};
-
-export default CreatePostPage;
