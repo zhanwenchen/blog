@@ -20,7 +20,7 @@ class PostPage extends React.Component {
   }
 
   componentDidMount() {
-    const paramStringId = this.props.params.stringId;
+    const paramStringId = this.props.match.params.stringId;
     fetch(GET_POST_URL(paramStringId))
       .then((response) => {
         response.json()
@@ -34,21 +34,13 @@ class PostPage extends React.Component {
                 localStorage.setItem('successMessage', responseJson.message);
                 const possiblePost = responseJson.post;
                 if (!_.isEmpty(possiblePost) && _.isObject(possiblePost)) {
-                  // const {
-                  //   stringId,
-                  //   title,
-                  //   author,
-                  //   body,
-                  //   createdAt,
-                  //   updatedAt,
-                  // } = possiblePost;
                   this.setState({
                     stringId: possiblePost.string_id,
                     title: possiblePost.title,
-                    author: possiblePost.author,
+                    author: `${possiblePost.User.firstName} ${possiblePost.User.lastName}`,
                     body: possiblePost.body,
-                    createdAt: possiblePost.createdAt,
-                    updatedAt: possiblePost.updatedAt,
+                    createdAt: new Date(possiblePost.createdAt).toString(),
+                    updatedAt: new Date(possiblePost.updatedAt).toString(),
                   });
                 } else {
                   // TODO: handle 404 error in the front-end

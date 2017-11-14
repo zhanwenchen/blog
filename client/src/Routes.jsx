@@ -38,6 +38,7 @@ const Routes = () => (
     <Route exact path='/' render={Home}/>
     <Route exact path='/login' component={LoginPage}/>
     <Route exact path='/signup' component={SignupPage}/>
+    <Route exact path='/posts/:stringId' component={PostPage}/>
     {/* <Route exact path='/logout' component={SignupPage}/> */}
   </Switch>
 );
