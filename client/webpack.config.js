@@ -16,7 +16,8 @@ module.exports = {
     filename: 'bundle.js',
     publicPath,
   },
-  devtool: '#eval-source-map',
+  // devtool: '#eval-source-map',
+  devtool: '#cheap-module-source-map',
   devServer: {
     // contentBase = '~/public/' so that index.html becomes the default html at GET '/'
     contentBase: path.join(__dirname, 'public'),
