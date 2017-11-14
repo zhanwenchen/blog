@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, IndexLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import Auth from '../modules/Auth';
 
 const Base = ({ children }) => (
   <div>
     <div className="top-bar">
       <div className="top-bar-left">
-        <IndexLink to="/">React Blog</IndexLink>
+        <NavLink to="/">React Blog</NavLink>
       </div>
 
       {Auth.isTokenExist()
