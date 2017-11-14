@@ -1,8 +1,6 @@
 /**
- * TODO: implement authorization in addition to authentication (user.token)
- * must match user id for editing profile.
+ * @file a central route configuring module for the client
  */
-// FIXME: this routes configuration might be deprecated by react-router v4
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Base from './components/Base.jsx';
@@ -34,13 +32,16 @@ const bounceIfNotLoggedIn = protectedComponent =>
   };
 
 const Routes = () => (
-  <Switch>
-    <Route exact path='/' render={Home}/>
-    <Route exact path='/login' component={LoginPage}/>
-    <Route exact path='/signup' component={SignupPage}/>
-    <Route exact path='/posts/:stringId' component={PostPage}/>
-    {/* <Route exact path='/logout' component={SignupPage}/> */}
-  </Switch>
+  <Base>
+    <Switch>
+      <Route exact path="/" render={Home} />
+      <Route exact path="/login" component={LoginPage} />
+      <Route exact path="/signup" component={SignupPage} />
+      <Route exact path="/posts/:stringId" component={PostPage} />
+      <Route exact path="/posts" component={AllPostsPage} />
+      {/* <Route exact path='/logout' component={SignupPage}/> */}
+    </Switch>
+  </Base>
 );
 
 export default Routes;
